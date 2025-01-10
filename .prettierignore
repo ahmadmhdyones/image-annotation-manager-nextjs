@@ -1,0 +1,35 @@
+# Dependencies
+node_modules
+
+# Next.js build outputs
+.next
+out
+dist
+build
+
+# Testing
+coverage
+**/coverage/*
+
+# Debug logs
+*.log*
+
+# Environment variables
+.env*
+
+# Cache
+.cache
+.turbo
+**/cache/*
+
+# Public assets
+public
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Miscellaneous
+.husky
