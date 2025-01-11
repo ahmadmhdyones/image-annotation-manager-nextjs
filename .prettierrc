@@ -21,21 +21,15 @@
   "overrides": [
     {
       "files": "*.md",
-      "options": {
-        "tabWidth": 4
-      }
+      "options": { "tabWidth": 4 }
     },
     {
       "files": ["*.html", "*.css", "*.scss", "*.sass"],
-      "options": {
-        "singleQuote": false
-      }
+      "options": { "singleQuote": false }
     },
     {
       "files": [".eslintrc", ".eslintrc.*", ".prettierrc", ".prettierrc.*"],
-      "options": {
-        "parser": "json"
-      }
+      "options": { "parser": "json" }
     }
   ]
 }

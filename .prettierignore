@@ -25,12 +25,6 @@ junit.xml
 .turbo
 **/cache/*
 
-# IDE
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
-
 # Documentation
 docs
 stories
