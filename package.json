@@ -22,7 +22,7 @@
     "format": "prettier --check \"**/*.{js,jsx,ts,tsx,json,html,css,scss,md}\"",
     "format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,css,scss,md}\"",
     "lint": "next lint",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
     "check": "npm run format && npm run lint",
     "fix": "npm run format:fix && npm run lint:fix"
