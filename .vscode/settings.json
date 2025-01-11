@@ -31,5 +31,15 @@
   },
   "terminal.integrated.defaultProfile.osx": "zsh",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
-  "typescript.updateImportsOnFileMove.enabled": "always"
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[json]": {},
+  "[jsonc]": {},
+  "[markdown]": {},
+  "[css]": {},
+  "[scss]": {},
+  "[html]": {},
+  "[javascript]": {},
+  "[javascriptreact]": {},
+  "[typescript]": {},
+  "[typescriptreact]": {}
 }
