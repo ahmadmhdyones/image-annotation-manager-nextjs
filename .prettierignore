@@ -1,20 +1,23 @@
 # Dependencies
 node_modules
 
-# Next.js build outputs
+# Build outputs
 .next
 out
 dist
 build
 
-# Testing
-coverage
+# Testing and Coverage
 **/coverage/*
+playwright-report
+test-results
+junit.xml
+.nyc_output
 
-# Debug logs
+# Debug and Logs
 *.log*
 
-# Environment variables
+# Environment and Config
 .env*
 
 # Cache
@@ -22,14 +25,19 @@ coverage
 .turbo
 **/cache/*
 
-# Public assets
-public
-
-# VS Code
+# IDE
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
-# Miscellaneous
+# Documentation
+docs
+stories
+storybook-static
+
+# Tool Config Files
+.prettierignore
+.stylelintignore
+.eslintignore
 .husky
