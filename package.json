@@ -14,7 +14,18 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prod": "npm run build && npm run start",
+    "clean": "rm -rf node_modules .next out dist",
+    "restart:dev": "npm run clean && npm install && npm run dev",
+    "restart:prod": "npm run clean && npm install && npm run prod",
+    "format": "prettier --check \"**/*.{js,jsx,ts,tsx,json,html,css,scss,md}\"",
+    "format:fix": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,css,scss,md}\"",
+    "lint": "next lint",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "check": "npm run format && npm run lint",
+    "fix": "npm run format:fix && npm run lint:fix"
   },
   "engines": {
     "node": ">=20.0.0"
