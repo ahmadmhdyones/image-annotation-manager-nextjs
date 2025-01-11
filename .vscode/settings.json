@@ -41,5 +41,6 @@
   "[javascript]": {},
   "[javascriptreact]": {},
   "[typescript]": {},
-  "[typescriptreact]": {}
+  "[typescriptreact]": {},
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
 }
