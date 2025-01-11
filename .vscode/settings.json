@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["turbopack", "Yones"],
+  "cSpell.words": ["turbopack", "vercel", "Yones"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",
@@ -16,6 +16,7 @@
   "editor.wordWrap": "off",
   "explorer.confirmDelete": true,
   "explorer.confirmDragAndDrop": true,
+  "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
