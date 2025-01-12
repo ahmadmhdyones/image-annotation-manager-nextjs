@@ -55,6 +55,7 @@
     "eslint-config-next": "15.1.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-perfectionist": "^4.6.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "prettier": "^3.4.2",
     "typescript": "^5"
   },

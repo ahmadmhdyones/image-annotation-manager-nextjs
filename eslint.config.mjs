@@ -13,7 +13,7 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.config({
     ignorePatterns: [],
-    plugins: ['perfectionist'],
+    plugins: ['perfectionist', 'unused-imports'],
     extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
     rules: {
       // General JavaScript Rules
@@ -32,13 +32,13 @@ const eslintConfig = [
       'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
       'react/no-children-prop': 'warn',
       'react/no-array-index-key': 'warn',
-      'react/require-default-props': 'warn',
+      'react/display-name': 'off',
+      'react/no-unescaped-entities': 'off',
       'react/jsx-props-no-spreading': 'off',
       'react/function-component-definition': 'warn',
 
       // TypeScript Specific Rules
       '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
-      '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
 
       // Import/Export Rules
@@ -61,6 +61,18 @@ const eslintConfig = [
       // Accessibility Rules
       'jsx-a11y/anchor-is-valid': 'warn',
       'jsx-a11y/control-has-associated-label': 'warn',
+
+      // unused-imports: https://www.npmjs.com/package/eslint-plugin-unused-imports
+      'unused-imports/no-unused-imports': 1,
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
 
       // Perfectionist: https://perfectionist.dev/rules
       'perfectionist/sort-imports': [
