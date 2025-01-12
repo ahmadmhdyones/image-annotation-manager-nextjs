@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${roboto.variable}`}>
+      <body className={`${roboto.className}`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
