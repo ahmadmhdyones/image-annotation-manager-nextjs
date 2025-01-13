@@ -40,6 +40,7 @@ const eslintConfig = [
       // TypeScript Specific Rules
       '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
       '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
+      '@typescript-eslint/no-empty-object-type': 'off',
 
       // Import/Export Rules
       'import/no-extraneous-dependencies': [
