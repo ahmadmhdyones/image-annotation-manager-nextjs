@@ -2,10 +2,10 @@ export const enum PageType {
   HomePage = 'home',
   DashboardPage = 'dashboard',
 
-  CategoryNewPage = 'category-new',
-  CategoryListPage = 'category-list',
+  CategoriesNewPage = 'categories-new',
+  CategoriesListPage = 'categories-list',
 
-  ImageUploadPage = 'image-upload',
-  ImageListPage = 'image-list',
-  ImageCanvasPage = 'image-canvas',
+  ImagesUploadPage = 'images-upload',
+  ImagesListPage = 'images-list',
+  ImagesCanvasPage = 'images-canvas',
 }

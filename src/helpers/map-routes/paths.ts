@@ -11,19 +11,19 @@ const ROOTS = {
 
 export const paths = {
   dashboard: {
-    category: {
-      new: { id: PageType.CategoryNewPage, to: () => `${ROOTS.DASHBOARD}/categories/new` },
-      root: { id: PageType.CategoryListPage, to: () => `${ROOTS.DASHBOARD}/categories` },
+    categories: {
+      new: { id: PageType.CategoriesNewPage, to: () => `${ROOTS.DASHBOARD}/categories/new` },
+      root: { id: PageType.CategoriesListPage, to: () => `${ROOTS.DASHBOARD}/categories` },
     },
-    image: {
+    images: {
       id: {
         canvas: {
-          id: PageType.ImageCanvasPage,
+          id: PageType.ImagesCanvasPage,
           to: (imageId: string) => `${ROOTS.DASHBOARD}/images/${imageId}/canvas`,
         },
       },
-      root: { id: PageType.ImageListPage, to: () => `${ROOTS.DASHBOARD}/images` },
-      upload: { id: PageType.ImageUploadPage, to: () => `${ROOTS.DASHBOARD}/images/upload` },
+      root: { id: PageType.ImagesListPage, to: () => `${ROOTS.DASHBOARD}/images` },
+      upload: { id: PageType.ImagesUploadPage, to: () => `${ROOTS.DASHBOARD}/images/upload` },
     },
     root: { id: PageType.DashboardPage, to: () => `${ROOTS.DASHBOARD}` },
   },
