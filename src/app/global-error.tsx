@@ -33,7 +33,7 @@ export default function GlobalError({ error, reset }: { error: { digest?: string
           }}
         >
           <Stack alignItems='center' spacing={3}>
-            <Image alt='Logo' height={48} src='/favicon.ico' width={48} />
+            <Image alt='Logo' height={48} src='/logo/logo-single.svg' width={48} />
 
             <Typography component='h1' gutterBottom variant='h4'>
               Something went wrong!

@@ -4,12 +4,13 @@ import { SITE } from '@/configs/site.config';
 
 // ----------------------------------------------------------------------
 
-const siteOgImage = `${SITE.url}/images/og.jpg`;
+const siteOgImage = `${SITE.url}/assets/images/og.jpg`;
 
 export const configAppRootMetadata: Metadata = {
   authors: [{ name: 'Ahmad Yones', url: 'https://github.com/ahmadmhdyones' }],
   creator: 'Ahmad Yones',
   description: SITE.description,
+  icons: { icon: '/favicon.ico' },
   keywords: ['Next.js', 'MUI', 'Vercel', 'Konva', 'Typescript'],
   manifest: `${SITE.url}/manifest.json`,
   metadataBase: new URL(SITE.url),
