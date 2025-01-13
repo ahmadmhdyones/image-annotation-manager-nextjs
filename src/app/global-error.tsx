@@ -1,10 +1,8 @@
 'use client';
-
+import Image from 'next/image';
 import { useEffect } from 'react';
 
 import { Box, Stack, Button, Container, Typography } from '@mui/material';
-
-import Logo from '@/components/logo/logo';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +35,7 @@ export default function GlobalError({ error, reset }: { error: { digest?: string
               }}
             >
               <Stack alignItems='center' spacing={3}>
-                <Logo sx={{ height: 48, width: 48 }} />
+                <Image alt='Logo' height={48} src='/favicon.ico' width={48} />
 
                 <Typography component='h1' gutterBottom variant='h4'>
                   Something went wrong!
