@@ -4,6 +4,8 @@ import { NextAppProvider } from '@toolpad/core/nextjs';
 import { CssBaseline } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
+import Logo from '@/components/ui/logo';
+
 import theme from '@/theme';
 import { SITE } from '@/configs/site.config';
 import { fonts } from '@/configs/fonts.config';
@@ -23,7 +25,7 @@ export default function RootLayout({
     <html data-toolpad-color-scheme='light' lang='en'>
       <body className={`${fonts.roboto.className}`}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <NextAppProvider branding={{ title: SITE.name }} navigation={NAVIGATION} theme={theme}>
+          <NextAppProvider branding={{ logo: <Logo />, title: SITE.name }} navigation={NAVIGATION} theme={theme}>
             <CssBaseline />
             {children}
           </NextAppProvider>
