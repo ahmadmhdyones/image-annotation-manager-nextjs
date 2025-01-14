@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { PageContainer } from '@toolpad/core/PageContainer';
 import { DashboardLayout as MUIDashboardLayout } from '@toolpad/core/DashboardLayout';
 
 // ----------------------------------------------------------------------
@@ -13,9 +12,5 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <MUIDashboardLayout>
-      <PageContainer>{children}</PageContainer>
-    </MUIDashboardLayout>
-  );
+  return <MUIDashboardLayout>{children}</MUIDashboardLayout>;
 }
