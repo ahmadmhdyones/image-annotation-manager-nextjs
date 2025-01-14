@@ -1,54 +1,62 @@
 'use client';
-import Image from 'next/image';
 import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 
-import { Box, Stack, Button, Container, Typography } from '@mui/material';
+import { Button } from '@mui/material';
+import { Typography } from '@mui/material';
+import { Box, Stack, Container } from '@mui/material';
+
+import Logo from '@/components/ui/logo';
 
 // ----------------------------------------------------------------------
 
-export default function GlobalError({ error, reset }: { error: { digest?: string } & Error; reset: () => void }) {
+export default function GlobalError({ error, reset }: { error: { digest?: string } & Error; reset: VoidFunction }) {
   useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (
-    <Box
-      sx={{
-        alignItems: 'center',
-        bgcolor: 'background.default',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        minHeight: '100vh',
-      }}
-    >
-      <Container maxWidth='sm'>
+    <html>
+      <body>
         <Box
+          component='main'
           sx={{
-            bgcolor: 'background.paper',
-            borderRadius: 2,
-            boxShadow: 1,
-            p: 4,
+            alignItems: 'center',
+            bgcolor: 'background.default',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            minHeight: '100vh',
           }}
         >
-          <Stack alignItems='center' spacing={3}>
-            <Image alt='Logo' height={48} src='/logo/logo-single.svg' width={48} />
+          <Container maxWidth='sm'>
+            <Box
+              sx={{
+                bgcolor: 'background.paper',
+                borderRadius: 2,
+                boxShadow: 1,
+                p: 4,
+              }}
+            >
+              <Stack alignItems='center' spacing={3}>
+                <Logo />
 
-            <Typography component='h1' gutterBottom variant='h4'>
-              Something went wrong!
-            </Typography>
+                <Typography component='h1' gutterBottom variant='h4'>
+                  Something went wrong!
+                </Typography>
 
-            <Typography align='center' color='text.secondary' sx={{ mb: 2 }}>
-              An unexpected error has occurred. We&apos;ve been notified and are working to fix the issue.
-            </Typography>
+                <Typography align='center' color='text.secondary' sx={{ mb: 2 }}>
+                  An unexpected error has occurred. We&apos;ve been notified and are working to fix the issue.
+                </Typography>
 
-            <Button onClick={() => reset()} size='large' variant='contained'>
-              Try again
-            </Button>
-          </Stack>
+                <Button onClick={reset} size='large' variant='contained'>
+                  Try again
+                </Button>
+              </Stack>
+            </Box>
+          </Container>
         </Box>
-      </Container>
-    </Box>
+      </body>
+    </html>
   );
 }
