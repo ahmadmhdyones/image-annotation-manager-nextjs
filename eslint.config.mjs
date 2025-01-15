@@ -84,10 +84,10 @@ const eslintConfig = [
           groups: [
             ['builtin', 'external'],
             'custom-mui',
-            'custom-utils',
             'custom-hooks',
             'custom-components',
             'custom-types',
+            'custom-configs',
             'internal',
             ['parent', 'sibling', 'index'],
             'object',
@@ -97,9 +97,9 @@ const eslintConfig = [
             value: {
               'custom-mui': '^@mui/.*',
               'custom-hooks': '^@/hooks/.*',
-              'custom-utils': '^@/utils/.*',
               'custom-components': '^@/components/.*',
               'custom-types': '^@/types/.*',
+              'custom-configs': '^@/configs/.*',
             },
           },
           newlinesBetween: 'always',
