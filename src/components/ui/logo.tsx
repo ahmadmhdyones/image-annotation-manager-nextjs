@@ -1,15 +1,24 @@
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
 
 // ----------------------------------------------------------------------
 
-export default function Logo() {
+export default function Logo({
+  options,
+  size = 36,
+  style,
+}: {
+  options?: Omit<ImageProps, 'src' | 'alt'>;
+  size?: number;
+  style?: React.CSSProperties;
+}) {
   return (
     <Image
       alt='Logo'
-      height={36}
+      height={size}
       src='/logo/logo-avatar.png'
-      style={{ background: 'white', borderRadius: '50%' }}
-      width={36}
+      style={{ ...style, background: 'white', borderRadius: '50%' }}
+      width={size}
+      {...options}
     />
   );
 }
