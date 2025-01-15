@@ -5,4 +5,10 @@ import { ResourceApiManager } from '../resource-api-manager';
 
 // ----------------------------------------------------------------------
 
-export const annotationAPI = new ResourceApiManager<IAnnotation>(endpoints.annotations);
+class AnnotationApiManager extends ResourceApiManager<IAnnotation> {
+  constructor() {
+    super(endpoints.annotations);
+  }
+}
+
+export const annotationAPI = new AnnotationApiManager();

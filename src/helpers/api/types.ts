@@ -11,6 +11,4 @@ export interface TRequest<Data = any, Params = Record<string, string | number | 
   params?: Params;
 }
 
-export type TRequestGetManyOptions<Params> = Omit<TRequest<never, Params>, 'method' | 'url'>;
-
 export type ResourceWithoutId<TResource> = Omit<TResource, 'id'>;

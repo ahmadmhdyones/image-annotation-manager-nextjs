@@ -5,4 +5,10 @@ import { ResourceApiManager } from '../resource-api-manager';
 
 // ----------------------------------------------------------------------
 
-export const categoryAPI = new ResourceApiManager<ICategory>(endpoints.categories);
+class CategoryApiManager extends ResourceApiManager<ICategory> {
+  constructor() {
+    super(endpoints.categories);
+  }
+}
+
+export const categoryAPI = new CategoryApiManager();
