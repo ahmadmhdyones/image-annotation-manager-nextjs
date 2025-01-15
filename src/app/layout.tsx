@@ -6,11 +6,12 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 import Logo from '@/components/ui/logo';
 
-import theme from '@/theme';
 import { SITE } from '@/configs/site.config';
 import { fonts } from '@/configs/fonts.config';
 import { NAVIGATION } from '@/configs/navigation.config';
 import { configAppRootMetadata } from '@/configs/metadata.config';
+
+import theme from '@/theme';
 
 // ----------------------------------------------------------------------
 
