@@ -12,6 +12,7 @@ export const NAVIGATION: Navigation = [
   {
     icon: <LocalOfferIcon />,
     kind: 'page',
+    pattern: `${paths.dashboard.categories.root.to().slice(1)}{/:segment}*`,
     segment: paths.dashboard.categories.root.to().slice(1),
     title: 'Categories',
   },
