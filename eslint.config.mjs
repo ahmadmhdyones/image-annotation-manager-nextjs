@@ -14,7 +14,7 @@ const eslintConfig = [
   ...compat.config({
     ignorePatterns: [],
     plugins: ['perfectionist', 'unused-imports'],
-    extends: ['next/core-web-vitals', 'next/typescript', 'prettier'],
+    extends: ['next/core-web-vitals', 'next/typescript', 'plugin:@tanstack/query/recommended', 'prettier'],
     rules: {
       // General JavaScript Rules
       'no-alert': 'warn',
