@@ -1,13 +1,24 @@
 import type { NextConfig } from 'next';
 import { withSentryConfig } from '@sentry/nextjs';
 
-import { paths } from '@/lib/map-routes';
+import { paths } from '@/helpers/map-routes';
 
 // ----------------------------------------------------------------------
 
 const nextConfig: NextConfig = {
+  devIndicators: {
+    appIsrStatus: true,
+    buildActivity: true,
+    buildActivityPosition: 'bottom-right',
+  },
+
   eslint: {
     dirs: ['src'],
+    ignoreDuringBuilds: false,
+  },
+
+  experimental: {
+    // ppr: 'incremental',
   },
 
   redirects: async () => {
@@ -18,6 +29,10 @@ const nextConfig: NextConfig = {
         source: paths.root.to(),
       },
     ];
+  },
+
+  typescript: {
+    ignoreBuildErrors: false,
   },
 };
 
