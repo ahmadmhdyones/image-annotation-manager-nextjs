@@ -21,6 +21,18 @@ const nextConfig: NextConfig = {
     ppr: 'incremental',
   },
 
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'picsum.photos',
+        pathname: '/**',
+        port: '',
+        protocol: 'https',
+        search: '',
+      },
+    ],
+  },
+
   redirects: async () => {
     return [
       {

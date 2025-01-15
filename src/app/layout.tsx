@@ -12,6 +12,7 @@ import { NAVIGATION } from '@/configs/navigation.config';
 import { configAppRootMetadata } from '@/configs/metadata.config';
 
 import theme from '@/theme';
+import ReactQueryProvider from '@/helpers/react-query';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +29,7 @@ export default function RootLayout({
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <NextAppProvider branding={{ logo: <Logo />, title: SITE.name }} navigation={NAVIGATION} theme={theme}>
             <CssBaseline />
-            {children}
+            <ReactQueryProvider>{children}</ReactQueryProvider>
           </NextAppProvider>
         </AppRouterCacheProvider>
       </body>
