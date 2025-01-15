@@ -12,6 +12,12 @@ const ROOTS = {
 export const paths = {
   dashboard: {
     categories: {
+      id: {
+        edit: {
+          id: PageType.CategoriesEditPage,
+          to: (categoryId: string) => `${ROOTS.DASHBOARD}/categories/${categoryId}/edit`,
+        },
+      },
       new: { id: PageType.CategoriesNewPage, to: () => `${ROOTS.DASHBOARD}/categories/new` },
       root: { id: PageType.CategoriesListPage, to: () => `${ROOTS.DASHBOARD}/categories` },
     },
@@ -25,7 +31,7 @@ export const paths = {
       root: { id: PageType.ImagesListPage, to: () => `${ROOTS.DASHBOARD}/images` },
       upload: { id: PageType.ImagesUploadPage, to: () => `${ROOTS.DASHBOARD}/images/upload` },
     },
-    root: { id: PageType.DashboardPage, to: () => `${ROOTS.DASHBOARD}` },
+    root: { id: PageType.DashboardOverviewPage, to: () => `${ROOTS.DASHBOARD}` },
   },
   root: { id: PageType.HomePage, to: () => `${ROOTS.HOME}` },
 } as const;
