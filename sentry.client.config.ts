@@ -2,11 +2,30 @@
 // The config you add here will be used whenever a users loads a page in their browser.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
+import { AxiosError } from 'axios';
 import * as Sentry from '@sentry/nextjs';
 
 // ----------------------------------------------------------------------
 
 Sentry.init({
+  beforeSend(event, hint) {
+    const error = hint.originalException;
+
+    console.error(error);
+
+    event.extra = {
+      ...event.extra,
+      // Add additional context
+    };
+
+    // Filter out specific errors
+    if (error instanceof AxiosError) {
+      if (error.status === 404) return null; // Don't track 404s
+    }
+
+    return event;
+  },
+
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
 

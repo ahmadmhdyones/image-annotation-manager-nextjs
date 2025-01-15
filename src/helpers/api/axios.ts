@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 
 import { API_URL } from '@/configs/global.config';
 
-import { TRequest } from './types';
+import { TRequest, TResponse } from './types';
 
 // ----------------------------------------------------------------------
 
@@ -57,9 +57,9 @@ export const request = async <Res = any, Payload = any, Params = any>({
   ...args
 }: TRequest<Payload, Params>): Promise<Res> => {
   try {
-    const response = await axiosInstance.request<Res>({ method, url, ...args });
+    const response = await axiosInstance.request<TResponse<Res>>({ method, url, ...args });
 
-    const { data } = response;
+    const { data } = response.data;
 
     if (showNotification) {
       // TODO: show toast
@@ -67,17 +67,25 @@ export const request = async <Res = any, Payload = any, Params = any>({
 
     return data;
   } catch (error) {
-    Sentry.captureException(error, {
-      extra: {
-        message: 'Request failed',
-        method,
-        params: args.params,
-        requestData: args.data,
-        url,
-      },
-      level: 'error',
-      tags: { category: 'http' },
-    });
+    if (error instanceof AxiosError) {
+      Sentry.captureException(error, {
+        extra: {
+          message: 'Request failed',
+          request: {
+            data: error.config?.data,
+            headers: error.config?.headers.toJSON(),
+            method: error.config?.method,
+            url: error.config?.url,
+          },
+          response: {
+            data: error.response?.data,
+            status: error.response?.status,
+          },
+        },
+        level: 'error',
+        tags: { category: 'http' },
+      });
+    }
     throw error;
   }
 };
