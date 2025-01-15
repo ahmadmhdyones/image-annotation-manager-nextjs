@@ -1,14 +1,14 @@
 import { IAnnotation } from '@/types/models/annotation.type';
 
 import { endpoints } from '../endpoints';
-import { ResourceApiManager } from '../resource-api-manager';
+import { ResourceApiService } from '../resource-api-service';
 
 // ----------------------------------------------------------------------
 
-class AnnotationApiManager extends ResourceApiManager<IAnnotation> {
+class AnnotationApiService extends ResourceApiService<IAnnotation> {
   constructor() {
     super(endpoints.annotations);
   }
 }
 
-export const annotationAPI = new AnnotationApiManager();
+export const annotationAPI = new AnnotationApiService();

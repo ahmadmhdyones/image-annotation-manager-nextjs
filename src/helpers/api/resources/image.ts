@@ -3,11 +3,11 @@ import { IAnnotation } from '@/types/models/annotation.type';
 
 import { request } from '../axios';
 import { endpoints } from '../endpoints';
-import { ResourceApiManager } from '../resource-api-manager';
+import { ResourceApiService } from '../resource-api-service';
 
 // ----------------------------------------------------------------------
 
-class ImageApiManager extends ResourceApiManager<IImage> {
+class ImageApiService extends ResourceApiService<IImage> {
   constructor() {
     super(endpoints.images);
   }
@@ -17,4 +17,4 @@ class ImageApiManager extends ResourceApiManager<IImage> {
   }
 }
 
-export const imageAPI = new ImageApiManager();
+export const imageAPI = new ImageApiService();

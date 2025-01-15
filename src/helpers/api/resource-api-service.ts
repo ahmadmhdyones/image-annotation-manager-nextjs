@@ -3,7 +3,7 @@ import { TRequest, ResourceWithoutId } from './types';
 
 // ----------------------------------------------------------------------
 
-export class ResourceApiManager<Resource extends { id: number | string }> {
+export class ResourceApiService<Resource extends { id: number | string }> {
   constructor(protected readonly endpoint: string) {}
 
   public async getOne(id: Resource['id']) {

@@ -1,14 +1,14 @@
 import { ICategory } from '@/types/models/category.type';
 
 import { endpoints } from '../endpoints';
-import { ResourceApiManager } from '../resource-api-manager';
+import { ResourceApiService } from '../resource-api-service';
 
 // ----------------------------------------------------------------------
 
-class CategoryApiManager extends ResourceApiManager<ICategory> {
+class CategoryApiService extends ResourceApiService<ICategory> {
   constructor() {
     super(endpoints.categories);
   }
 }
 
-export const categoryAPI = new CategoryApiManager();
+export const categoryAPI = new CategoryApiService();
