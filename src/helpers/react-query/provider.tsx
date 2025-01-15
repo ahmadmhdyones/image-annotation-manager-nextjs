@@ -1,9 +1,8 @@
 'use client';
+
 import { useState } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-import { configTanstack } from '@/configs/global.config';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +31,7 @@ export default function Provider({ children }: Readonly<{ children: React.ReactN
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <ReactQueryDevtools initialIsOpen={configTanstack.reactQueryDevtoolsInitialIsOpen} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
