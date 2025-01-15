@@ -1,11 +1,11 @@
 export const enum PageType {
-  HomePage = 'home',
-  DashboardPage = 'dashboard',
+  HomePage = 'home-page',
+  DashboardPage = 'dashboard-page',
 
-  CategoriesNewPage = 'categories-new',
-  CategoriesListPage = 'categories-list',
+  CategoriesNewPage = 'categories-new-page',
+  CategoriesListPage = 'categories-list-page',
 
-  ImagesUploadPage = 'images-upload',
-  ImagesListPage = 'images-list',
-  ImagesCanvasPage = 'images-canvas',
+  ImagesUploadPage = 'images-upload-page',
+  ImagesListPage = 'images-list-page',
+  ImagesCanvasPage = 'images-canvas-page',
 }
