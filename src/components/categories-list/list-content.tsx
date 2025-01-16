@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Edit, Delete } from '@mui/icons-material';
@@ -47,15 +48,21 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
       {isLoading ? (
         <ListSkeleton />
       ) : (
-        categories.map(category => (
-          <ListItem key={category.id}>
+        categories.map(({ description, id, image, name }) => (
+          <ListItem key={id}>
             <ListItemAvatar sx={{ marginBottom: 'auto' }}>
-              <Avatar>{category.id}</Avatar>
+              {image ? (
+                <Avatar>
+                  <Image alt={name} height={50} src={image} width={50} />
+                </Avatar>
+              ) : (
+                <Avatar>{id}</Avatar>
+              )}
             </ListItemAvatar>
 
             <ListItemText
-              primary={category.name}
-              secondary={category.description || 'No description available.'}
+              primary={name}
+              secondary={description || 'No description available.'}
               slotProps={{
                 secondary: {
                   sx: {
@@ -73,13 +80,13 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
               <IconButton
                 disabled={isDeleting}
                 edge='end'
-                href={paths.dashboard.categories.id.edit.to(category.id.toString())}
+                href={paths.dashboard.categories.id.edit.to(id.toString())}
                 LinkComponent={Link}
               >
                 <Edit />
               </IconButton>
 
-              <IconButton disabled={isDeleting} edge='end' onClick={() => handleDelete(category.id)}>
+              <IconButton disabled={isDeleting} edge='end' onClick={() => handleDelete(id)}>
                 <Delete />
               </IconButton>
             </Box>
