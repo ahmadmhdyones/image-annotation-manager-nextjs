@@ -2,7 +2,7 @@ export interface IImage {
   id: number;
   name: string;
   url: string;
-  uploadDate: string;
+  uploadAt: string;
   metadata: IImageMetadata;
   categoryId: number;
 }

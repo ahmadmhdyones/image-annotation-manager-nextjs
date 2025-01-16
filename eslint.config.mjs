@@ -31,13 +31,14 @@ const eslintConfig = [
       'react/no-unstable-nested-components': ['error', { allowAsProps: true }],
       'react/jsx-no-duplicate-props': ['error', { ignoreCase: false }],
       'react/no-children-prop': 'warn',
-      'react/no-array-index-key': 'warn',
       'react/display-name': 'off',
+      'react/no-array-index-key': 'off',
       'react/no-unescaped-entities': 'off',
       'react/jsx-props-no-spreading': 'off',
       'react/function-component-definition': 'warn',
 
       // TypeScript Specific Rules
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
       '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
       '@typescript-eslint/no-empty-object-type': 'off',
