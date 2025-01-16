@@ -5,7 +5,6 @@ import { alpha, Theme, Components } from '@mui/material/styles';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { toggleButtonClasses } from '@mui/material/ToggleButton';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { toggleButtonGroupClasses } from '@mui/material/ToggleButtonGroup';
 import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded';
 
@@ -275,14 +274,14 @@ export const inputsCustomizations: Components<Theme> = {
       }),
     },
   },
-  MuiFormLabel: {
-    styleOverrides: {
-      root: ({ theme }) => ({
-        marginBottom: 8,
-        typography: theme.typography.caption,
-      }),
-    },
-  },
+  // MuiFormLabel: {
+  //   styleOverrides: {
+  //     root: ({ theme }) => ({
+  //       marginBottom: 8,
+  //       typography: theme.typography.caption,
+  //     }),
+  //   },
+  // },
   MuiIconButton: {
     styleOverrides: {
       root: ({ theme }) => ({
@@ -338,39 +337,6 @@ export const inputsCustomizations: Components<Theme> = {
       }),
     },
   },
-  MuiInputAdornment: {
-    styleOverrides: {
-      root: ({ theme }) => ({
-        color: theme.palette.grey[500],
-        ...theme.applyStyles('dark', {
-          color: theme.palette.grey[400],
-        }),
-      }),
-    },
-  },
-  MuiInputBase: {
-    styleOverrides: {
-      input: {
-        '&::placeholder': {
-          color: gray[500],
-          opacity: 0.7,
-        },
-      },
-      root: {
-        border: 'none',
-      },
-    },
-  },
-  MuiInputLabel: {
-    styleOverrides: {
-      root: {
-        [`&.${outlinedInputClasses.focused}`]: {
-          transform: 'translate(4px, -12px) scale(0.75)',
-        },
-        transform: 'translate(4px, -11px) scale(0.75)',
-      },
-    },
-  },
   // @ts-expect-error TODO: MuiLoadingButton is not present in the default `theme`
   MuiLoadingButton: {
     styleOverrides: {
@@ -383,54 +349,6 @@ export const inputsCustomizations: Components<Theme> = {
             color: gray[600],
           }),
         },
-      }),
-    },
-  },
-  MuiOutlinedInput: {
-    styleOverrides: {
-      input: {
-        padding: 0,
-      },
-      notchedOutline: {
-        border: 'none',
-      },
-      root: ({ theme }) => ({
-        '&:hover': {
-          borderColor: gray[400],
-        },
-        [`&.${outlinedInputClasses.focused}`]: {
-          borderColor: brand[400],
-          outline: `2px solid ${alpha(brand[500], 0.5)}`,
-        },
-        'backgroundColor': theme.palette.background.default,
-        'border': `1px solid ${theme.palette.divider}`,
-        'borderRadius': theme.shape.borderRadius,
-        'color': theme.palette.text.primary,
-        'padding': '8px 12px',
-        'transition': 'border 120ms ease-in',
-        ...theme.applyStyles('dark', {
-          '&:hover': {
-            borderColor: gray[500],
-          },
-        }),
-        'variants': [
-          {
-            props: {
-              size: 'small',
-            },
-            style: {
-              height: '2.25rem',
-            },
-          },
-          {
-            props: {
-              size: 'medium',
-            },
-            style: {
-              height: '2.5rem',
-            },
-          },
-        ],
       }),
     },
   },
