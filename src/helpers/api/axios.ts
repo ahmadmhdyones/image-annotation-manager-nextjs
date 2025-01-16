@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Sentry from '@sentry/nextjs';
 import axios, { AxiosError } from 'axios';
+import { notFound } from 'next/navigation';
 
 import { API_URL } from '@/configs/global.config';
 
+import { setupMocks } from './mocks';
 import { TRequest, TResponse } from './types';
 
 // ----------------------------------------------------------------------
@@ -36,8 +37,7 @@ axiosInstance.interceptors.response.use(
 
     switch (response?.status) {
       case 404:
-        // TODO: show 404 page
-        break;
+        notFound();
       default:
         break;
     }
@@ -48,8 +48,11 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+setupMocks(axiosInstance);
+
 // ----------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const request = async <Res = any, Payload = any, Params = any>({
   method,
   showNotification = method !== 'GET',
