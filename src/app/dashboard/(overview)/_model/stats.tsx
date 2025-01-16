@@ -12,57 +12,39 @@ import { annotationAPI } from '@/helpers/api/resources/annotation';
 export const stats = [
   {
     icon: LocalOfferIcon,
-    queryFn: async () => {
-      'use server';
-      return await categoryAPI.getCount();
-    },
+    queryFn: async () => await categoryAPI.getCount(),
     queryKey: [queryKeys.categoriesCount()],
     title: 'Total Categories',
     type: 'card',
   },
   {
     icon: CollectionsIcon,
-    queryFn: async () => {
-      'use server';
-      return await imageAPI.getCount();
-    },
+    queryFn: async () => await imageAPI.getCount(),
     queryKey: [queryKeys.imagesCount()],
     title: 'Total Images',
     type: 'card',
   },
   {
     icon: CategoryIcon,
-    queryFn: async () => {
-      'use server';
-      return await annotationAPI.getCount();
-    },
+    queryFn: async () => await annotationAPI.getCount(),
     queryKey: [queryKeys.annotationsCount()],
     title: 'Total Annotations',
     type: 'card',
   },
   {
-    queryFn: async () => {
-      'use server';
-      return await annotationAPI.getMany();
-    },
+    queryFn: async () => await annotationAPI.getMany(),
     queryKey: [queryKeys.annotations()],
     title: 'Annotations by Type',
     type: 'chart',
   },
   {
-    queryFn: async () => {
-      'use server';
-      return await categoryAPI.getMany();
-    },
+    queryFn: async () => await categoryAPI.getMany(),
     queryKey: [queryKeys.categories()],
     title: 'Category Popularity',
     type: 'chart',
   },
   {
-    queryFn: async () => {
-      'use server';
-      return await imageAPI.getMany();
-    },
+    queryFn: async () => await imageAPI.getMany(),
     queryKey: [queryKeys.images()],
     title: 'Image Upload Trend',
     type: 'chart',

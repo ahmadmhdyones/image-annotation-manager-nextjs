@@ -53,6 +53,7 @@ export default function ClientStatsChartValue({ fn, queryKey }: ClientStatsChart
               { id: 'Circle', label: 'Circle', value: 30 },
               { id: 'Polygon', label: 'Polygon', value: 20 },
             ],
+            highlightScope: { fade: 'global', highlight: 'item' },
           },
         ]}
       />

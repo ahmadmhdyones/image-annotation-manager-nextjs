@@ -10,12 +10,10 @@ import Typography from '@mui/material/Typography';
 export interface ClientStatsCardValueProps {
   queryFn: () => Promise<any>;
   queryKey: string[] | readonly unknown[];
-  initialData?: any;
 }
 
-export default function ClientStatsCardValue({ initialData, queryFn, queryKey }: ClientStatsCardValueProps) {
+export default function ClientStatsCardValue({ queryFn, queryKey }: ClientStatsCardValueProps) {
   const { data, error, isFetching, isLoading, isPending } = useQuery({
-    initialData,
     queryFn,
     queryKey,
   });

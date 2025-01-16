@@ -52,7 +52,6 @@ setupMocks(axiosInstance);
 
 // ----------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const request = async <Res = any, Payload = any, Params = any>({
   method,
   showNotification = method !== 'GET',

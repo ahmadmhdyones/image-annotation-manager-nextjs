@@ -1,3 +1,5 @@
+'use client';
+
 import { PageContainer } from '@toolpad/core/PageContainer';
 
 import { Grid } from '@mui/material';
@@ -11,11 +13,7 @@ import { stats } from './_model/stats';
 
 // ----------------------------------------------------------------------
 
-export const experimental_ppr = true;
-
-export default async function DashboardOverviewPage() {
-  const statsResults = await Promise.all(stats.map(stat => stat.queryFn()));
-
+export default function DashboardOverviewPage() {
   return (
     <PageContainer
       breadcrumbs={[{ path: paths.dashboard.root.to(), title: 'Dashboard' }]}
@@ -26,13 +24,7 @@ export default async function DashboardOverviewPage() {
         {stats.map((stat, index) => {
           return stat.type === 'card' ? (
             <Grid item key={index} sm={4} xs={12}>
-              <StatsCard
-                icon={stat.icon}
-                initialData={statsResults[index]}
-                queryFn={stat.queryFn}
-                queryKey={stat.queryKey}
-                title={stat.title}
-              />
+              <StatsCard icon={stat.icon} queryFn={stat.queryFn} queryKey={stat.queryKey} title={stat.title} />
             </Grid>
           ) : (
             <Grid item key={index} md={6} xs={12}>
