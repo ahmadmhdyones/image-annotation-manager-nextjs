@@ -16,9 +16,10 @@ import { paths } from '@/helpers/map-routes';
  * Categories Page
  *
  * Uses PPR (Parallel Progressive Rendering) to optimize performance by:
- * - Fetching initial data on server-side in parallel (CategoriesList)
+ * - Fetching ((initial data)) on server-side in parallel (CategoriesList)
  * - Streaming results to client components (CategoriesList)
  * - Hydrating React Query cache for seamless client-side updates (CategoriesListContent)
+=> Get benefits of both SSR (initial load & seo) and CSR (caching and state management)
  */
 
 export const experimental_ppr = true;

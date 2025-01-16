@@ -1,18 +1,24 @@
+import { PageContainer } from '@toolpad/core/PageContainer';
+
+import CategoryForm from '@/components/category-form';
+
+import { paths } from '@/helpers/map-routes';
+
+// ----------------------------------------------------------------------
+
 export default function CategoriesNewPage() {
   return (
-    <div className='container mx-auto p-4'>
-      <h1 className='text-2xl font-bold mb-6'>Create New Category</h1>
-      <div className='max-w-lg'>
-        {/* Category form will be implemented later */}
-        <div className='space-y-4'>
-          <a
-            className='inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors'
-            href='/dashboard/categories'
-          >
-            Back to Categories
-          </a>
-        </div>
-      </div>
-    </div>
+    <PageContainer
+      breadcrumbs={[
+        { path: paths.dashboard.root.to(), title: 'Dashboard' },
+        { path: paths.dashboard.categories.root.to(), title: 'Categories' },
+        { path: paths.dashboard.categories.new.to(), title: 'New' },
+      ]}
+      id={paths.dashboard.categories.new.id}
+    >
+      {/* ------------------------- <Category Form> ------------------------ */}
+      <CategoryForm />
+      {/* ------------------------- </Category Form> ------------------------ */}
+    </PageContainer>
   );
 }
