@@ -1,10 +1,16 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 import { Box, Button, Typography } from '@mui/material';
 
 import { paths } from '@/helpers/map-routes';
 
 // ----------------------------------------------------------------------
+
+export const metadata: Metadata = {
+  description: 'The image you are looking for does not exist or has been moved.',
+  title: 'Image Not Found',
+};
 
 export default function ImagesCanvasNotFound() {
   return (
