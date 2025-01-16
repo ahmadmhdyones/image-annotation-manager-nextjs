@@ -17,6 +17,13 @@ import ListSkeleton from './list-skeleton';
 
 // ----------------------------------------------------------------------
 
+/**
+ * ListContent Component
+ *
+ * Displays and manages the categories list with server-side initial data for optimal performance.
+ * Handles category deletion while automatically updating related data through react-query cache invalidation.
+ */
+
 export default function ListContent({ initialData }: { initialData?: ICategory[] }) {
   const queryClient = useQueryClient();
 

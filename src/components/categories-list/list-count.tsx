@@ -10,6 +10,13 @@ import { queryKeys } from '@/helpers/react-query/query-keys.enum';
 
 // ----------------------------------------------------------------------
 
+/**
+ * ListCount Component
+ *
+ * Displays total categories count with real-time updates through React Query's cache invalidation
+ * when categories are modified in the list page.
+ */
+
 export default function ListCount() {
   const {
     data: count,

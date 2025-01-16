@@ -9,7 +9,7 @@ import ListContent from './list-content';
 // ----------------------------------------------------------------------
 
 export default async function ListContainer() {
-  const categories = await categoryAPI.getMany();
+  const categories = await categoryAPI.getMany(); // Initial data from server (on server-side rendering)
 
   return (
     <List sx={{ padding: { md: 1, xs: 0 } }}>
