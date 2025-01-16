@@ -12,8 +12,16 @@ class ImageApiService extends ResourceApiService<IImage> {
     super(endpoints.images);
   }
 
+  public async getCount() {
+    return request<number>({ method: 'GET', url: `${this.endpoint}/count` });
+  }
+
   public async getAnnotations(imageId: IImage['id']) {
     return await request<IAnnotation[]>({ method: 'GET', url: `${this.endpoint}/${imageId}/annotations` });
+  }
+
+  public async getAnnotationsCount(imageId: IImage['id']) {
+    return request<number>({ method: 'GET', url: `${this.endpoint}/${imageId}/annotations/count` });
   }
 }
 
