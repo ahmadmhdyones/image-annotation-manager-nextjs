@@ -16,4 +16,4 @@ export type TResponse<Data = never> = {
   message: string;
 };
 
-export type ResourceWithoutId<TResource> = Omit<TResource, 'id'>;
+export type ResourceCreateUpdateInput<TResource> = Omit<TResource, 'id' | 'createdAt' | 'updatedAt' | 'uploadedAt'>;

@@ -1,5 +1,5 @@
 import { request } from './axios';
-import { TRequest, ResourceWithoutId } from './types';
+import { TRequest, ResourceCreateUpdateInput } from './types';
 
 // ----------------------------------------------------------------------
 
@@ -16,11 +16,11 @@ export class ResourceApiService<Resource extends { id: number | string }> {
     return await request<Resource[]>({ ...options, method: 'GET', url: this.endpoint });
   }
 
-  public async create(data: ResourceWithoutId<Resource>) {
+  public async create(data: ResourceCreateUpdateInput<Resource>) {
     return await request<Resource>({ data, method: 'POST', url: this.endpoint });
   }
 
-  public async update(id: Resource['id'], data: Partial<ResourceWithoutId<Resource>>) {
+  public async update(id: Resource['id'], data: Partial<ResourceCreateUpdateInput<Resource>>) {
     return await request<Resource>({ data, method: 'PUT', url: `${this.endpoint}/${id}` });
   }
 
