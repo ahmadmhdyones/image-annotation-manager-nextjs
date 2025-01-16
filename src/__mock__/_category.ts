@@ -1,4 +1,4 @@
-import { ICategory } from '@/types/models/category.type';
+import { ICategory } from '@/types/models/category.types';
 
 import { _mock } from './_mock';
 import { _tags } from './assets';

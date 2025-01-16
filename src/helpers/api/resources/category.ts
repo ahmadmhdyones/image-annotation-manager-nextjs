@@ -1,4 +1,4 @@
-import { ICategory } from '@/types/models/category.type';
+import { ICategory } from '@/types/models/category.types';
 
 import { request } from '../axios';
 import { endpoints } from '../endpoints';

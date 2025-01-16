@@ -1,4 +1,4 @@
-import { IAnnotation } from '@/types/models/annotation.type';
+import { IAnnotation } from '@/types/models/annotation.types';
 
 import { request } from '../axios';
 import { endpoints } from '../endpoints';

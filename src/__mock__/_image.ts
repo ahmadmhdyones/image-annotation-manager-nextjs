@@ -1,4 +1,4 @@
-import { IImage } from '@/types/models/image.type';
+import { IImage } from '@/types/models/image.types';
 
 // ----------------------------------------------------------------------
 
