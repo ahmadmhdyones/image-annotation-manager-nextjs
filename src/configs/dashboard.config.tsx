@@ -9,7 +9,7 @@ import { annotationAPI } from '@/helpers/api/resources/annotation';
 
 // ----------------------------------------------------------------------
 
-export const stats = [
+export const overviewStats = [
   {
     icon: LocalOfferIcon,
     queryFn: async () => await categoryAPI.getCount(),

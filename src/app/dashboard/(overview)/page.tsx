@@ -7,11 +7,20 @@ import { Grid } from '@mui/material';
 import StatsCard from '@/components/stats/stats-card';
 import StatsChart from '@/components/stats/stats-chart';
 
+import { overviewStats } from '@/configs/dashboard.config';
+
 import { paths } from '@/helpers/map-routes';
 
-import { stats } from './_model/stats';
-
 // ----------------------------------------------------------------------
+
+/**
+ * Dashboard Overview Page (Client Component)
+ *
+ * Kept entirely client-side because:
+ * - Contains dynamic charts and stats that require client rendering
+ * - No SEO requirements for this admin dashboard view
+ * - Optimizes performance for data-heavy visualizations
+ */
 
 export default function DashboardOverviewPage() {
   return (
@@ -20,8 +29,9 @@ export default function DashboardOverviewPage() {
       id={paths.dashboard.root.id}
       title='Overview'
     >
+      {/* ------------------------- <Stats Section> ------------------------ */}
       <Grid component={'section'} container spacing={3}>
-        {stats.map((stat, index) => {
+        {overviewStats.map((stat, index) => {
           return stat.type === 'card' ? (
             <Grid item key={index} sm={4} xs={12}>
               <StatsCard icon={stat.icon} queryFn={stat.queryFn} queryKey={stat.queryKey} title={stat.title} />
@@ -33,6 +43,7 @@ export default function DashboardOverviewPage() {
           );
         })}
       </Grid>
+      {/* ------------------------- </Stats Section> ------------------------ */}
     </PageContainer>
   );
 }

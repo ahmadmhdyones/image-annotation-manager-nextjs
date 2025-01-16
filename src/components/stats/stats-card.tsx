@@ -7,6 +7,15 @@ import ClientStatsCardValue, { ClientStatsCardValueProps } from './client-stats-
 
 // ----------------------------------------------------------------------
 
+/**
+ * StatsCard Component
+ *
+ * An autonomous dashboard card that:
+ * - Acts as an independent data unit with its own React Query (fn, queryKey)
+ * - Abstracts data fetching logic from parent components
+ * - Can be reused across the dashboard with different data sources
+ */
+
 interface StatsCardProps extends ClientStatsCardValueProps {
   icon: React.ElementType;
   title: string;

@@ -9,13 +9,22 @@ import { queryKeys } from '@/helpers/react-query';
 
 // ----------------------------------------------------------------------
 
+/**
+ * ClientStatsChartValue Component
+ *
+ * A simplified chart abstraction layer that intentionally:
+ * - Uses hardcoded implementations for demonstration purposes
+ * - Skips optimizations (lazy loading, code splitting) for clarity
+ * - Shows different chart types based on queryKey parameter
+ */
+
 export interface ClientStatsChartValueProps {
   fn: () => Promise<any>;
   queryKey: string[] | readonly unknown[];
 }
 
 export default function ClientStatsChartValue({ fn, queryKey }: ClientStatsChartValueProps) {
-  const { data, error, isFetching, isLoading, isPending } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryFn: fn,
     queryKey,
   });
@@ -34,7 +43,7 @@ export default function ClientStatsChartValue({ fn, queryKey }: ClientStatsChart
       </Box>
     );
 
-  if (isLoading || isFetching || isPending) {
+  if (isLoading) {
     return (
       <Box sx={{ alignItems: 'center', display: 'flex', height: 300, justifyContent: 'center' }}>
         <Skeleton height={250} sx={{ borderRadius: '7px' }} variant='rectangular' width='90%' />
@@ -42,6 +51,9 @@ export default function ClientStatsChartValue({ fn, queryKey }: ClientStatsChart
     );
   }
 
+  /* -------------------------------------------------------------------------- */
+  /* -------------------------- Hardcoded chart types -------------------------- */
+  /* -------------------------------------------------------------------------- */
   if (queryKey[0] === queryKeys.annotations()) {
     return (
       <PieChart
