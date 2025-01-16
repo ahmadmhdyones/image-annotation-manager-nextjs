@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Edit, Delete } from '@mui/icons-material';
-import { Box, Avatar, ListItem, IconButton, ListItemText, ListItemAvatar, List as ListMUI } from '@mui/material';
+import { Box, Avatar, ListItem, IconButton, ListItemText, ListItemAvatar } from '@mui/material';
 
 import { ICategory } from '@/types/models/category.types';
 
@@ -19,26 +19,25 @@ import ListSkeleton from './list-skeleton';
 
 export default function ListContent({ initialData }: { initialData?: ICategory[] }) {
   const queryClient = useQueryClient();
-  const {
-    data: categories = [],
-    isFetching,
-    isLoading,
-    isPending,
-    isRefetching,
-  } = useQuery({
+
+  const { data: categories = [], isLoading } = useQuery({
     initialData,
     queryFn: () => categoryAPI.getMany(),
     queryKey: [queryKeys.categories()],
   });
 
-  const deleteMutation = useMutation({
+  const { isPending: isDeleting, mutate: deleteMutation } = useMutation({
     mutationFn: (id: number) => categoryAPI.delete(id),
-    onSuccess: () => queryClient.invalidateQueries(),
+    onSuccess: () => queryClient.invalidateQueries(), // => category will affect on images related to it, and images will affect on annotations related to them
   });
 
+  const handleDelete = (id: number) => {
+    deleteMutation(id);
+  };
+
   return (
-    <ListMUI sx={{ padding: { md: 1, xs: 0 } }}>
-      {isLoading || isFetching || isPending || isRefetching ? (
+    <>
+      {isLoading ? (
         <ListSkeleton />
       ) : (
         categories.map(category => (
@@ -65,21 +64,21 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
 
             <Box sx={{ display: 'flex', flexDirection: { md: 'row', xs: 'column' }, gap: { md: 2, xs: 1 } }}>
               <IconButton
+                disabled={isDeleting}
                 edge='end'
                 href={paths.dashboard.categories.id.edit.to(category.id.toString())}
                 LinkComponent={Link}
               >
                 <Edit />
               </IconButton>
-              {!deleteMutation.isPending && (
-                <IconButton edge='end' onClick={async () => await deleteMutation.mutateAsync(category.id)}>
-                  <Delete />
-                </IconButton>
-              )}
+
+              <IconButton disabled={isDeleting} edge='end' onClick={() => handleDelete(category.id)}>
+                <Delete />
+              </IconButton>
             </Box>
           </ListItem>
         ))
       )}
-    </ListMUI>
+    </>
   );
 }
