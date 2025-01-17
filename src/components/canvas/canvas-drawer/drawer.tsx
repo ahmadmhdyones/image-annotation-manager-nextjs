@@ -58,7 +58,6 @@ export default function Drawer({ color, handleLoading, imageURL, loading, size, 
     startPos.current = stagePoint;
     setTempRectangle({ height: 0, width: 0, x: stagePoint.x, y: stagePoint.y });
   }, []);
-
   const resizeDrawRectangle = useCallback(
     (stagePoint: TPoint) => {
       if (startPos.current && tempRectangle) {

@@ -15,6 +15,7 @@ import { CANVAS_TOOLS, CANVAS_DEFAULT_TOOL, CANVAS_DEFAULT_COLOR } from '@/confi
 import CanvasDrawer from './canvas-drawer';
 import CanvasLoading from './canvas-loading';
 import { useElementSize } from './hooks/use-element-size';
+import { useCanvasCursor } from './hooks/use-canvas-cursor';
 const CanvasToolbar = dynamic(() => import('./canvas-toolbar'), { ssr: false });
 
 // ----------------------------------------------------------------------
@@ -32,15 +33,10 @@ export default function CanvasContainer({ image }: Props) {
   const [tool, setTool] = useState<CanvasTools>(CANVAS_DEFAULT_TOOL);
   const [color, setColor] = useState<string>(CANVAS_DEFAULT_COLOR);
 
+  useCanvasCursor(tool);
+
   return (
-    <Box
-      ref={containerRef}
-      sx={{
-        height: '100%',
-        position: 'relative',
-        width: '100%',
-      }}
-    >
+    <Box ref={containerRef} sx={{ height: '100%', position: 'relative', width: '100%' }}>
       {loading.value && <CanvasLoading />}
 
       {!loading.value && (
