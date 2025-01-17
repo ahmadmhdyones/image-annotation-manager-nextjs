@@ -13,7 +13,7 @@ export interface ClientStatsCardValueProps {
 }
 
 export default function ClientStatsCardValue({ queryFn, queryKey }: ClientStatsCardValueProps) {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, isRefetching } = useQuery({
     queryFn,
     queryKey,
   });
@@ -25,7 +25,7 @@ export default function ClientStatsCardValue({ queryFn, queryKey }: ClientStatsC
       </Typography>
     );
 
-  if (isLoading) return <Skeleton height={36} width={60} />;
+  if (isLoading || isRefetching) return <Skeleton height={36} width={60} />;
 
   return data;
 }

@@ -24,7 +24,7 @@ export interface ClientStatsChartValueProps {
 }
 
 export default function ClientStatsChartValue({ fn, queryKey }: ClientStatsChartValueProps) {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, isRefetching } = useQuery({
     queryFn: fn,
     queryKey,
   });
@@ -43,7 +43,7 @@ export default function ClientStatsChartValue({ fn, queryKey }: ClientStatsChart
       </Box>
     );
 
-  if (isLoading) {
+  if (isLoading || isRefetching) {
     return (
       <Box sx={{ alignItems: 'center', display: 'flex', height: 300, justifyContent: 'center' }}>
         <Skeleton height={250} sx={{ borderRadius: '7px' }} variant='rectangular' width='90%' />
