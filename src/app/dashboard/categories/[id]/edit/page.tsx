@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import CategoryForm from '@/components/category-form';
 
 import { paths } from '@/helpers/map-routes';
+import { RouteParams } from '@/helpers/map-params';
 import { categoryAPI } from '@/helpers/api/resources/category';
 
 // ----------------------------------------------------------------------
@@ -16,7 +17,7 @@ import { categoryAPI } from '@/helpers/api/resources/category';
  * - Reusing the create form component for consistency and maintainability
  */
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ [RouteParams.ID]: string }> }) {
   const { id } = await params;
   const category = await categoryAPI.getOne(Number(id));
   return {
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
-export default async function CategoriesEditPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function CategoriesEditPage({ params }: { params: Promise<{ [RouteParams.ID]: string }> }) {
   const { id } = await params;
 
   const category = await categoryAPI.getOne(Number(id));

@@ -3,6 +3,7 @@ import AxiosMockAdapter from 'axios-mock-adapter';
 
 import { API_URL } from '@/configs/global.config';
 
+import { QueryParams } from '@/helpers/map-params';
 import { _images, _categories, _annotations } from '@/__mock__';
 
 import { endpoints } from './endpoints';
@@ -108,19 +109,19 @@ export const setupMocks = (instance: AxiosInstance) => {
     let images = _images;
 
     // Support filtering by categoryId from query params
-    const categoryId = params.get('category');
+    const categoryId = params.get(QueryParams.CATEGORY);
     if (categoryId) {
       images = images.filter(img => img.categoryId === parseInt(categoryId));
     }
 
     // support filtering by image name from query params
-    const imageName = params.get('name')?.toLowerCase();
+    const imageName = params.get(QueryParams.NAME)?.toLowerCase();
     if (imageName) {
       images = images.filter(img => img.name.toLowerCase().includes(imageName));
     }
 
     // support filtering by image format from query params
-    const imageFormat = params.get('format')?.toLowerCase();
+    const imageFormat = params.get(QueryParams.FORMAT)?.toLowerCase();
     if (imageFormat) {
       images = images.filter(img => img.metadata.format.toLowerCase().includes(imageFormat));
     }
