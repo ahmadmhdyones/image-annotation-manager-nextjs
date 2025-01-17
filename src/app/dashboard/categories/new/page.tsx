@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { PageContainer } from '@toolpad/core/PageContainer';
 
 import CategoryForm from '@/components/category-form';
@@ -5,6 +6,10 @@ import CategoryForm from '@/components/category-form';
 import { paths } from '@/helpers/map-routes';
 
 // ----------------------------------------------------------------------
+
+export const metadata: Metadata = {
+  title: 'Create Category',
+};
 
 export default function CategoriesNewPage() {
   return (

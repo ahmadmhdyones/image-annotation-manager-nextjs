@@ -16,6 +16,14 @@ import { categoryAPI } from '@/helpers/api/resources/category';
  * - Reusing the create form component for consistency and maintainability
  */
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const category = await categoryAPI.getOne(Number(id));
+  return {
+    title: `Edit ${category.name}`,
+  };
+}
+
 export default async function CategoriesEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
