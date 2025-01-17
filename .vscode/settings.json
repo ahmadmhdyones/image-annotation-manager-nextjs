@@ -61,5 +61,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-  "cSpell.words": ["ahmadmhdyones", "Konva", "toolpad", "turbopack", "vercel", "Yones"]
+  "cSpell.words": ["ahmadmhdyones", "Konva", "toolpad", "turbopack", "uuidv", "vercel", "Yones"]
 }
