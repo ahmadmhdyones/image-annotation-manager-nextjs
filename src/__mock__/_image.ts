@@ -5,11 +5,11 @@ import { _categories } from './_category';
 
 // ----------------------------------------------------------------------
 
-export const _images: IImage[] = [...Array(100)].map((_, index) => ({
+export const _images: IImage[] = [...Array(250)].map((_, index) => ({
   categoryId: (index % _categories.length) + 1,
   id: index + 1,
   metadata: {
-    format: _mock.file.format(index),
+    format: _mock.file.format(index) as IImage['metadata']['format'],
     resolution: _mock.file.resolution(index),
     size: _mock.file.size(index),
   },
