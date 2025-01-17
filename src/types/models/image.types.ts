@@ -1,3 +1,7 @@
+import { ImageFormat } from '../image-format.enum';
+
+// ----------------------------------------------------------------------
+
 export interface IImage {
   id: number;
   name: string;
@@ -9,6 +13,6 @@ export interface IImage {
 
 interface IImageMetadata {
   size: string;
-  format: string;
+  format: ImageFormat;
   resolution: string;
 }
