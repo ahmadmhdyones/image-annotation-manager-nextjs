@@ -532,9 +532,6 @@ export const _imageResolutions = [
   '2560x1440',
   '3840x2160',
   '4096x2160',
-  '640x480',
-  '1366x768',
-  '1600x900',
 ];
 
 // Helper function to generate random file sizes
