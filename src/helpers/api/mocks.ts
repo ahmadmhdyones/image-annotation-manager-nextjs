@@ -20,16 +20,6 @@ export const setupMocks = (instance: AxiosInstance) => {
   /*                                Categories                                  */
   /* -------------------------------------------------------------------------- */
 
-  mock.onGet(`${API_URL}${endpoints.categories}`).reply(200, {
-    data: _categories,
-    message: 'Categories fetched successfully',
-    status: 'success',
-  });
-
-  mock.onGet(`${API_URL}${endpoints.categories}/count`).reply(() => {
-    return [200, { data: _categories.length, message: 'Categories fetched successfully', status: 'success' }];
-  });
-
   mock.onGet(new RegExp(`${API_URL}${endpoints.categories}/\\d+`)).reply(config => {
     const id = parseInt(config.url?.split('/').pop() || '0');
 
@@ -40,6 +30,14 @@ export const setupMocks = (instance: AxiosInstance) => {
 
     return [200, { data: category, message: 'Category fetched successfully', status: 'success' }];
   });
+
+  mock.onGet(`${API_URL}${endpoints.categories}/count`).reply(() => {
+    return [200, { data: _categories.length, message: 'Categories fetched successfully', status: 'success' }];
+  });
+
+  mock
+    .onGet(`${API_URL}${endpoints.categories}`)
+    .reply(200, { data: _categories, message: 'Categories fetched successfully', status: 'success' });
 
   mock.onPost(`${API_URL}${endpoints.categories}`).reply(config => {
     const newCategory = JSON.parse(config.data);
@@ -104,6 +102,45 @@ export const setupMocks = (instance: AxiosInstance) => {
   /*                                Images                                      */
   /* -------------------------------------------------------------------------- */
 
+  mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+/annotations/count`)).reply(config => {
+    const id = parseInt(config.url?.split(`${endpoints.images}/`)[1].split('/annotations/count')[0] || '0');
+
+    const image = _images.find(img => img.id === id);
+    if (!image) {
+      return [404, { message: 'Image not found', status: 'error' }];
+    }
+    const annotations = _annotations.filter(ann => ann.imageId === id);
+
+    return [200, { data: annotations.length, message: 'Annotations fetched successfully', status: 'success' }];
+  });
+
+  mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+/annotations`)).reply(config => {
+    const id = parseInt(config.url?.split(`${endpoints.images}/`)[1].split('/annotations')[0] || '0');
+
+    const image = _images.find(img => img.id === id);
+    if (!image) {
+      return [404, { message: 'Image not found', status: 'error' }];
+    }
+    const annotations = _annotations.filter(ann => ann.imageId === id);
+
+    return [200, { data: annotations, message: 'Annotations fetched successfully', status: 'success' }];
+  });
+
+  mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+`)).reply(config => {
+    const id = parseInt(config.url?.split('/').pop() || '0');
+
+    const image = _images.find(img => img.id === id);
+    if (!image) {
+      return [404, { message: 'Image not found', status: 'error' }];
+    }
+
+    return [200, { data: image, message: 'Image fetched successfully', status: 'success' }];
+  });
+
+  mock.onGet(`${API_URL}${endpoints.images}/count`).reply(() => {
+    return [200, { data: _images.length, message: 'Images fetched successfully', status: 'success' }];
+  });
+
   mock.onGet(`${API_URL}${endpoints.images}`).reply(config => {
     const params = new URLSearchParams(config.params);
     let images = _images;
@@ -127,45 +164,6 @@ export const setupMocks = (instance: AxiosInstance) => {
     }
 
     return [200, { data: images, message: 'Images fetched successfully', status: 'success' }];
-  });
-
-  mock.onGet(`${API_URL}${endpoints.images}/count`).reply(() => {
-    return [200, { data: _images.length, message: 'Images fetched successfully', status: 'success' }];
-  });
-
-  mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+`)).reply(config => {
-    const id = parseInt(config.url?.split('/').pop() || '0');
-
-    const image = _images.find(img => img.id === id);
-    if (!image) {
-      return [404, { message: 'Image not found', status: 'error' }];
-    }
-
-    return [200, { data: image, message: 'Image fetched successfully', status: 'success' }];
-  });
-
-  mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+/annotations`)).reply(config => {
-    const id = parseInt(config.url?.split(`${endpoints.images}/`)[1].split('/annotations')[0] || '0');
-
-    const image = _images.find(img => img.id === id);
-    if (!image) {
-      return [404, { message: 'Image not found', status: 'error' }];
-    }
-    const annotations = _annotations.filter(ann => ann.imageId === id);
-
-    return [200, { data: annotations, message: 'Annotations fetched successfully', status: 'success' }];
-  });
-
-  mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+/annotations/count`)).reply(config => {
-    const id = parseInt(config.url?.split(`${endpoints.images}/`)[1].split('/annotations/count')[0] || '0');
-
-    const image = _images.find(img => img.id === id);
-    if (!image) {
-      return [404, { message: 'Image not found', status: 'error' }];
-    }
-    const annotations = _annotations.filter(ann => ann.imageId === id);
-
-    return [200, { data: annotations.length, message: 'Annotations fetched successfully', status: 'success' }];
   });
 
   mock.onPost(`${API_URL}${endpoints.images}`).reply(config => {
@@ -228,16 +226,6 @@ export const setupMocks = (instance: AxiosInstance) => {
   /*                                Annotations                                 */
   /* -------------------------------------------------------------------------- */
 
-  mock.onGet(`${API_URL}${endpoints.annotations}`).reply(200, {
-    data: _annotations,
-    message: 'Annotations fetched successfully',
-    status: 'success',
-  });
-
-  mock.onGet(`${API_URL}${endpoints.annotations}/count`).reply(() => {
-    return [200, { data: _annotations.length, message: 'Annotations fetched successfully', status: 'success' }];
-  });
-
   mock.onGet(new RegExp(`${API_URL}${endpoints.annotations}/\\d+`)).reply(config => {
     const id = parseInt(config.url?.split('/').pop() || '0');
 
@@ -254,6 +242,16 @@ export const setupMocks = (instance: AxiosInstance) => {
         status: 'success',
       },
     ];
+  });
+
+  mock.onGet(`${API_URL}${endpoints.annotations}/count`).reply(() => {
+    return [200, { data: _annotations.length, message: 'Annotations fetched successfully', status: 'success' }];
+  });
+
+  mock.onGet(`${API_URL}${endpoints.annotations}`).reply(200, {
+    data: _annotations,
+    message: 'Annotations fetched successfully',
+    status: 'success',
   });
 
   mock.onPost(`${API_URL}${endpoints.annotations}`).reply(config => {
