@@ -2,15 +2,11 @@ import { ButtonProps } from '@mui/material';
 
 import { CanvasTools } from './canvas-tools.enum';
 
+// ----------------------------------------------------------------------
+
 export interface Size {
   width: number;
   height: number;
-}
-
-export interface LineDraw {
-  tool: any;
-  points: number[];
-  color: string;
 }
 
 export type CanvasToolbarTool =
@@ -20,3 +16,23 @@ export type CanvasToolbarTool =
       tool: CanvasTools;
     } & ButtonProps)
   | null;
+
+export interface TPoint {
+  x: number;
+  y: number;
+}
+
+export interface TRectangle {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface TLine {
+  points: number[];
+}
+
+export type AnnotationShape<T> = {
+  color: string;
+} & T;

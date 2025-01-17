@@ -1,12 +1,20 @@
-export interface IAnnotation {
+import { TLine, TRectangle } from '../canvas.types';
+import { AnnotationShapes } from '../annotation-shapes.enum';
+
+// ----------------------------------------------------------------------
+
+export type IAnnotation = {
   id: number;
-  type: string;
   color: string;
-  coordinates: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
   imageId: number;
-}
+} & (LineAnnotation | RectangleAnnotation);
+
+type RectangleAnnotation = {
+  type: AnnotationShapes.RECTANGLE;
+  coordinates: TRectangle;
+};
+
+type LineAnnotation = {
+  type: AnnotationShapes.LINE;
+  coordinates: TLine;
+};
