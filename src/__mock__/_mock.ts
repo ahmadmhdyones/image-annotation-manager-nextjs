@@ -16,13 +16,19 @@ import {
   _tourNames,
   _jobTitles,
   _taskNames,
+  _fileSizes,
   _postTitles,
   _firstNames,
   _fullAddress,
+  _imagePrefix,
   _companyNames,
   _productNames,
   _descriptions,
   _phoneNumbers,
+  _imageFormats,
+  _imageSubjects,
+  _imageSuffixes,
+  _imageResolutions,
 } from './assets';
 
 // ----------------------------------------------------------------------
@@ -40,6 +46,19 @@ export const _mock = {
   description: (index: number) => _descriptions[index],
   // Contact
   email: (index: number) => _emails[index],
+  // File properties
+  file: {
+    format: (index: number) => _imageFormats[index % _imageFormats.length],
+    imageName: (index: number): string => {
+      const prefix = _imagePrefix[index % _imagePrefix.length];
+      const subject = _imageSubjects[index % _imageSubjects.length];
+      const suffix = _imageSuffixes[index % _imageSuffixes.length];
+      const timestamp = String(Date.now()).slice(-6);
+      return `${prefix}${subject}_${timestamp}_${suffix}`;
+    },
+    resolution: (index: number) => _imageResolutions[index % _imageResolutions.length],
+    size: (index: number) => _fileSizes[index % _fileSizes.length],
+  },
   // Name
   firstName: (index: number) => _firstNames[index],
   fullAddress: (index: number) => _fullAddress[index],
