@@ -36,6 +36,7 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
   const {
     data: categories = [],
     error,
+    isError,
     isLoading,
     isRefetching,
   } = useQuery({
@@ -44,13 +45,20 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
     queryKey: [queryKeys.categories()],
   });
 
-  const { isPending: isDeleting, mutate: deleteMutation } = useDeleteCategory();
+  const {
+    error: deleteError,
+    isError: isDeleteError,
+    isPending: isDeleting,
+    isSuccess: isDeleted,
+    mutate: deleteMutation,
+  } = useDeleteCategory();
 
-  useInvalidateCategories();
+  // Revalidate categories when deletion is successful or there is an error
+  useInvalidateCategories({ shouldInvalidate: isDeleted || isDeleteError });
 
-  if (error) {
-    return <ErrorContent error={error} />;
-  }
+  if (isError) return <ErrorContent error={error} />;
+  if (isLoading || isRefetching) return <ListSkeleton />;
+  if (isDeleteError) return <ErrorContent error={deleteError} />;
 
   if (categories.length === 0) {
     return (
@@ -60,10 +68,6 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
         title='No Categories Found'
       />
     );
-  }
-
-  if (isLoading || isRefetching) {
-    return <ListSkeleton />;
   }
 
   return (
@@ -106,7 +110,7 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
               <Edit />
             </IconButton>
 
-            <IconButton disabled={isDeleting} edge='end' onClick={() => deleteMutation(id)}>
+            <IconButton edge='end' onClick={() => deleteMutation(id)}>
               <Delete />
             </IconButton>
           </Box>

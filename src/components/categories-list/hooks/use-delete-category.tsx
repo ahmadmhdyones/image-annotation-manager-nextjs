@@ -27,17 +27,20 @@ export const useDeleteCategory = () => {
 
       // Snapshot the previous value
       const previousCategories = queryClient.getQueryData<ICategory[]>([queryKeys.categories()]);
+      const previousCategoriesCount = queryClient.getQueryData<number>([queryKeys.categoriesCount()]);
 
       // Optimistically remove the category from the list
       queryClient.setQueryData<ICategory[]>([queryKeys.categories()], old =>
         old?.filter(category => category.id !== deletedId)
       );
 
+      // Optimistically update the categories count
+      if (previousCategoriesCount && previousCategoriesCount > 0) {
+        queryClient.setQueryData<number>([queryKeys.categoriesCount()], previousCategoriesCount - 1);
+      }
+
       // Return context with the previous categories
       return { previousCategories };
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [queryKeys.categoriesCount()] });
     },
   });
 };
