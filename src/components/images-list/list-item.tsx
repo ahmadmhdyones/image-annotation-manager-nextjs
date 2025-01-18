@@ -84,11 +84,7 @@ export default function ListItem({ image, isRefetching, onDelete }: Props) {
             <Typography component='span' variant='caption'>
               {[image.metadata?.resolution, image.metadata?.format, image.metadata?.size].filter(Boolean).join(' • ')}
             </Typography>
-            <Chip
-              label={`Category ${image.categoryId}`}
-              size='small'
-              sx={{ '&:hover': { backgroundColor: 'primary.main', color: 'primary.contrastText' } }}
-            />
+            <Chip label={`Category ${image.categoryId}`} size='small' />
           </Stack>
         }
         sx={{
