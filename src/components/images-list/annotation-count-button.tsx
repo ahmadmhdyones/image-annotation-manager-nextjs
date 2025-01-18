@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { Category } from '@mui/icons-material';
 import { Tooltip, IconButton, CircularProgress } from '@mui/material';
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function AnnotationCountButton({ imageId }: Props) {
+  const queryClient = useQueryClient();
   const {
     data: count,
     isError,
@@ -24,6 +26,12 @@ export default function AnnotationCountButton({ imageId }: Props) {
     queryFn: async () => await imageAPI.getAnnotationsCount(imageId),
     queryKey: [queryKeys.imageAnnotationsCount(imageId)],
   });
+
+  useEffect(() => {
+    return () => {
+      queryClient.removeQueries({ queryKey: [queryKeys.imageAnnotationsCount(imageId)] });
+    };
+  }, [queryClient, imageId]);
 
   return (
     <Tooltip
