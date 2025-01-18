@@ -4,7 +4,7 @@ import ListItemSkeleton from './list-item-skeleton';
 
 // ----------------------------------------------------------------------
 
-export default function ListSkeleton() {
+export default function ListSkeleton({ count = 6 }: { count?: number }) {
   return (
     <ImageList
       gap={16}
@@ -18,7 +18,7 @@ export default function ListSkeleton() {
       }}
       variant='quilted'
     >
-      {[...Array(6)].map((_, index) => (
+      {[...Array(count)].map((_, index) => (
         <ListItemSkeleton key={index} />
       ))}
     </ImageList>

@@ -2,41 +2,47 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 
-import { Draw } from '@mui/icons-material';
+import { Draw, Delete, Collections } from '@mui/icons-material';
 import { Box, Chip, Stack, ImageList, Typography, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
+
+import EmptyContent from '@/components/ui/empty-content';
+import ErrorContent from '@/components/ui/error-content';
+import ConfirmActionButton from '@/components/ui/confirm-action-button';
 
 import { IImage } from '@/types/models/image.types';
 
 import { DEFAULT_BLUR_DATA_URL } from '@/configs/global.config';
 
 import { paths } from '@/helpers/map-routes';
-import { imageAPI } from '@/helpers/api/resources/image';
-import { queryKeys } from '@/helpers/react-query/query-keys.enum';
 
-import ImagesListSkeleton from './list-skeleton';
+import ListSkeleton from './list-skeleton';
+import useGetImages from './hooks/use-get-images';
+import ListItemSkeleton from './list-item-skeleton';
+import { useDeleteImage } from './hooks/use-delete-image';
+import useInvalidateImages from './hooks/use-invalidate-images';
 
 // ----------------------------------------------------------------------
 
-export default function ListContent({ initialData }: { initialData: IImage[] }) {
-  const { data: images = [], isLoading } = useQuery({
-    initialData,
-    queryFn: () => imageAPI.getMany(),
-    queryKey: [queryKeys.images()],
-  });
+export default function ListContent({ initialData }: { initialData?: IImage[] }) {
+  const { data: images = [], error, isError, isFetching, isLoading, isRefetching } = useGetImages(initialData);
 
-  if (isLoading) {
-    return <ImagesListSkeleton />;
+  const { error: deleteError, isError: isDeleteError, isSuccess: isDeleted, mutate: deleteMutation } = useDeleteImage();
+
+  // Revalidate images when deletion is successful or there is an error
+  useInvalidateImages({ shouldInvalidate: isDeleted || isDeleteError });
+
+  if (isError) return <ErrorContent error={error} />;
+  if (isLoading || isFetching) return <ListSkeleton />;
+  if (isDeleteError) {
+    toast.error('Something went wrong while deleting the image, please reload the page.');
+    return <ErrorContent error={deleteError} />;
   }
 
   if (images.length === 0) {
     return (
-      <Box sx={{ py: 8, textAlign: 'center' }}>
-        <Typography color='text.secondary' variant='body1'>
-          No images found
-        </Typography>
-      </Box>
+      <EmptyContent description='Start by uploading your first image' icon={<Collections />} title='No Images Found' />
     );
   }
 
@@ -55,6 +61,8 @@ export default function ListContent({ initialData }: { initialData: IImage[] }) 
       }}
       variant='quilted'
     >
+      {isRefetching && <ListItemSkeleton />}
+
       {images.map(image => (
         <ImageListItem key={image.id}>
           <Box sx={{ aspectRatio: '1/1', display: 'block', position: 'relative' }}>
@@ -79,8 +87,9 @@ export default function ListContent({ initialData }: { initialData: IImage[] }) 
           </Box>
           <ImageListItemBar
             actionIcon={
-              <Box display='flex' justifyContent='flex-end' sx={{ height: '100%', py: 1.5 }}>
+              <Box display='flex' justifyContent='flex-end' sx={{ gap: 0.5, height: '100%', py: 1.5 }}>
                 <IconButton
+                  disabled={isRefetching}
                   href={paths.dashboard.images.id.canvas.to(image.id.toString())}
                   LinkComponent={Link}
                   size='small'
@@ -88,13 +97,27 @@ export default function ListContent({ initialData }: { initialData: IImage[] }) 
                 >
                   <Draw />
                 </IconButton>
+
+                <ConfirmActionButton
+                  confirmButtonColor='error'
+                  confirmButtonText='Delete'
+                  description={`Are you sure you want to delete "${image.name}"?`}
+                  onConfirm={() => deleteMutation(image.id)}
+                  title='Delete Image'
+                >
+                  <IconButton disabled={isRefetching} size='small' sx={{ marginTop: 'auto' }}>
+                    <Delete />
+                  </IconButton>
+                </ConfirmActionButton>
               </Box>
             }
             position='below'
             subtitle={
               <Stack alignItems='center' direction='row' spacing={1}>
                 <Typography component='span' variant='caption'>
-                  {`${image.metadata.resolution} • ${image.metadata.format} • ${image.metadata.size}`}
+                  {[image.metadata?.resolution, image.metadata?.format, image.metadata?.size]
+                    .filter(Boolean)
+                    .join(' • ')}
                 </Typography>
                 <Chip
                   clickable

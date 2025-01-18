@@ -5,7 +5,7 @@ import { _categories } from './_category';
 
 // ----------------------------------------------------------------------
 
-export const _images: IImage[] = [...Array(250)].map((_, index) => ({
+export const _images: IImage[] = [...Array(10)].map((_, index) => ({
   categoryId: (index % _categories.length) + 1,
   id: index + 1,
   metadata: {

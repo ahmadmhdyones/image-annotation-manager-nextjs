@@ -4,7 +4,7 @@ import { Stack, Skeleton, ImageListItem, ImageListItemBar } from '@mui/material'
 
 export default function ListItemSkeleton() {
   return (
-    <ImageListItem>
+    <ImageListItem sx={{ display: 'flex', flexDirection: 'column' }}>
       <Skeleton animation='wave' height={200} sx={{ borderRadius: 1 }} variant='rectangular' width='100%' />
       <ImageListItemBar
         position='below'
@@ -14,6 +14,7 @@ export default function ListItemSkeleton() {
             <Skeleton animation='wave' width={80} />
           </Stack>
         }
+        sx={{ my: 'auto' }}
         title={<Skeleton animation='wave' width={160} />}
       />
     </ImageListItem>

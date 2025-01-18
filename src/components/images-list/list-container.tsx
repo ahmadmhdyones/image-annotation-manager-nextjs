@@ -1,11 +1,9 @@
-import { imageAPI } from '@/helpers/api/resources/image';
+'use client';
 
 import ListContent from './list-content';
 
 // ----------------------------------------------------------------------
 
-export default async function ListContainer() {
-  const images = await imageAPI.getMany();
-
-  return <ListContent initialData={images} />;
+export default function ListContainer() {
+  return <ListContent />;
 }

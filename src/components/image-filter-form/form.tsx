@@ -1,39 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-
-import { Search } from '@mui/icons-material';
-import { Box, Chip, Stack, Button, TextField, Autocomplete, InputAdornment } from '@mui/material';
+import { Clear, Search } from '@mui/icons-material';
+import { Box, Chip, Stack, Button, TextField, IconButton, Autocomplete, InputAdornment } from '@mui/material';
 
 import { _imageFormats, _imageResolutions } from '@/__mock__/assets';
+
+import { useImageFilters } from './hooks/use-image-filters';
 
 // ----------------------------------------------------------------------
 
 const FORMAT_OPTIONS = _imageFormats;
 const RESOLUTION_OPTIONS = _imageResolutions;
 
-export type ImageFilters = {
-  search: string;
-  format: string | undefined;
-  resolution: string | undefined;
-};
-
-type Props = {
-  onFiltersChange?: (filters: ImageFilters) => void;
-};
-
-export default function Form({ onFiltersChange = () => {} }: Props) {
-  const [search, setSearch] = useState('');
-  const [format, setFormat] = useState<string | null>(null);
-  const [resolution, setResolution] = useState<string | null>(null);
-
-  const handleChange = (newSearch: string, newFormat: string | null, newResolution: string | null) => {
-    onFiltersChange({
-      format: newFormat ?? undefined,
-      resolution: newResolution ?? undefined,
-      search: newSearch,
-    });
-  };
+export default function Form() {
+  const { format, handleChange, name, resolution, setFormat, setName, setResolution } = useImageFilters();
 
   return (
     <Box sx={{ mb: 3 }}>
@@ -41,27 +21,44 @@ export default function Form({ onFiltersChange = () => {} }: Props) {
         <Stack direction={{ sm: 'row', xs: 'column' }} spacing={1}>
           <TextField
             fullWidth
+            InputProps={{
+              endAdornment: name ? (
+                <InputAdornment position='end'>
+                  <IconButton
+                    edge='end'
+                    onClick={() => {
+                      setName('');
+                      handleChange('', format, resolution);
+                    }}
+                    size='small'
+                  >
+                    <Clear />
+                  </IconButton>
+                </InputAdornment>
+              ) : null,
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <Search />
+                </InputAdornment>
+              ),
+              sx: { pr: 0.5 },
+            }}
             onChange={e => {
-              setSearch(e.target.value);
+              setName(e.target.value);
               handleChange(e.target.value, format, resolution);
             }}
             onKeyUp={e => {
               if (e.key === 'Enter') {
-                handleChange(search, format, resolution);
+                handleChange(name, format, resolution);
               }
             }}
             placeholder='Search images...'
             size='medium'
-            slotProps={{
-              input: {
-                startAdornment: <InputAdornment position='start'>{<Search />}</InputAdornment>,
-              },
-            }}
             sx={{ '& .MuiInputBase-root': { height: 40 } }}
-            value={search}
+            value={name}
           />
           <Button
-            onClick={() => handleChange(search, format, resolution)}
+            onClick={() => handleChange(name, format, resolution)}
             sx={{
               height: 40,
               px: 3,
@@ -77,7 +74,7 @@ export default function Form({ onFiltersChange = () => {} }: Props) {
           <Autocomplete
             onChange={(_, newValue) => {
               setFormat(newValue);
-              handleChange(search, newValue, resolution);
+              handleChange(name, newValue, resolution);
             }}
             options={FORMAT_OPTIONS}
             renderInput={params => <TextField {...params} label='Format' placeholder='Select formats' />}
@@ -94,7 +91,7 @@ export default function Form({ onFiltersChange = () => {} }: Props) {
           <Autocomplete
             onChange={(_, newValue) => {
               setResolution(newValue);
-              handleChange(search, format, newValue);
+              handleChange(name, format, newValue);
             }}
             options={RESOLUTION_OPTIONS}
             renderInput={params => <TextField {...params} label='Resolution' placeholder='Select resolutions' />}
