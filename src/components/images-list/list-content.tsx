@@ -55,16 +55,18 @@ export default function ListContent({ initialData }: { initialData: IImage[] }) 
     >
       {images.map(image => (
         <ImageListItem key={image.id}>
-          <Link
-            href={paths.dashboard.images.id.canvas.to(image.id.toString())}
-            style={{ aspectRatio: '1/1', display: 'block', position: 'relative' }}
-          >
+          <Box sx={{ aspectRatio: '1/1', display: 'block', position: 'relative' }}>
             <Image
               alt={image.name}
               blurDataURL='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJyEwPENDPzE2O0FBNjpLPS1yWEk6T3RBRVlKR05PS0ZaVktPWXBJR0f/2wBDARUXFx4aHR4eHUZDOzNGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkb/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k='
               fill
               loading='lazy'
               placeholder='blur'
+              sizes={`
+                (max-width: 600px) calc(100vw - 32px),
+                (max-width: 900px) calc(50vw - 24px),
+                calc(33vw - 22px)
+              `}
               src={image.url}
               style={{
                 backgroundColor: 'rgba(0,0,0,0.02)',
@@ -72,7 +74,7 @@ export default function ListContent({ initialData }: { initialData: IImage[] }) 
                 objectFit: 'cover',
               }}
             />
-          </Link>
+          </Box>
           <ImageListItemBar
             actionIcon={
               <Box display='flex' justifyContent='flex-end' sx={{ height: '100%', py: 1.5 }}>
