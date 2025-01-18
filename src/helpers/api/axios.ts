@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 import axios, { AxiosError } from 'axios';
 import { notFound } from 'next/navigation';
 
-import { API_URL } from '@/configs/global.config';
+import { API_URL, API_MOCK_ENABLED } from '@/configs/global.config';
 
 import { setupMocks } from './mocks';
 import { TRequest, TResponse } from './types';
@@ -42,30 +42,25 @@ axiosInstance.interceptors.response.use(
         break;
     }
 
-    // TODO: show toast
-
     return Promise.reject(error);
   }
 );
 
-setupMocks(axiosInstance);
+// ----------------------------------------------------------------------
+
+if (API_MOCK_ENABLED) setupMocks(axiosInstance);
 
 // ----------------------------------------------------------------------
 
 export const request = async <Res = any, Payload = any, Params = any>({
   method,
-  showNotification = method !== 'GET',
   url,
   ...args
 }: TRequest<Payload, Params>): Promise<Res> => {
   try {
     const response = await axiosInstance.request<TResponse<Res>>({ method, url, ...args });
 
-    const { data } = response.data;
-
-    if (showNotification) {
-      // TODO: show toast
-    }
+    const { data } = response;
 
     return data;
   } catch (error) {

@@ -28,16 +28,14 @@ export const setupMocks = (instance: AxiosInstance) => {
       return [404, { message: 'Category not found', status: 'error' }];
     }
 
-    return [200, { data: category, message: 'Category fetched successfully', status: 'success' }];
+    return [200, category];
   });
 
   mock.onGet(`${API_URL}${endpoints.categories}/count`).reply(() => {
-    return [200, { data: _categories.length, message: 'Categories fetched successfully', status: 'success' }];
+    return [200, _categories.length];
   });
 
-  mock
-    .onGet(`${API_URL}${endpoints.categories}`)
-    .reply(200, { data: _categories, message: 'Categories fetched successfully', status: 'success' });
+  mock.onGet(`${API_URL}${endpoints.categories}`).reply(200, _categories);
 
   mock.onPost(`${API_URL}${endpoints.categories}`).reply(config => {
     const newCategory = JSON.parse(config.data);
@@ -50,7 +48,7 @@ export const setupMocks = (instance: AxiosInstance) => {
     };
     _categories.push(category);
 
-    return [201, { data: category, message: 'Category created successfully', status: 'success' }];
+    return [201, category];
   });
 
   mock.onPut(new RegExp(`${API_URL}${endpoints.categories}/\\d+`)).reply(config => {
@@ -67,7 +65,7 @@ export const setupMocks = (instance: AxiosInstance) => {
       id, // Ensure ID doesn't change
     };
 
-    return [200, { data: _categories[index], message: 'Category updated successfully', status: 'success' }];
+    return [200, _categories[index]];
   });
 
   mock.onDelete(new RegExp(`${API_URL}${endpoints.categories}/\\d+`)).reply(config => {
@@ -95,7 +93,7 @@ export const setupMocks = (instance: AxiosInstance) => {
       }
     }
 
-    return [200, { data: {}, message: 'Category deleted successfully', status: 'success' }];
+    return [200, {}];
   });
 
   /* -------------------------------------------------------------------------- */
@@ -111,7 +109,7 @@ export const setupMocks = (instance: AxiosInstance) => {
     }
     const annotations = _annotations.filter(ann => ann.imageId === id);
 
-    return [200, { data: annotations.length, message: 'Annotations fetched successfully', status: 'success' }];
+    return [200, annotations.length];
   });
 
   mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+/annotations`)).reply(config => {
@@ -123,7 +121,7 @@ export const setupMocks = (instance: AxiosInstance) => {
     }
     const annotations = _annotations.filter(ann => ann.imageId === id);
 
-    return [200, { data: annotations, message: 'Annotations fetched successfully', status: 'success' }];
+    return [200, annotations];
   });
 
   mock.onGet(new RegExp(`${API_URL}${endpoints.images}/\\d+`)).reply(config => {
@@ -134,11 +132,11 @@ export const setupMocks = (instance: AxiosInstance) => {
       return [404, { message: 'Image not found', status: 'error' }];
     }
 
-    return [200, { data: image, message: 'Image fetched successfully', status: 'success' }];
+    return [200, image];
   });
 
   mock.onGet(`${API_URL}${endpoints.images}/count`).reply(() => {
-    return [200, { data: _images.length, message: 'Images fetched successfully', status: 'success' }];
+    return [200, _images.length];
   });
 
   mock.onGet(`${API_URL}${endpoints.images}`).reply(config => {
@@ -163,7 +161,7 @@ export const setupMocks = (instance: AxiosInstance) => {
       images = images.filter(img => img.metadata.format.toLowerCase().includes(imageFormat));
     }
 
-    return [200, { data: images, message: 'Images fetched successfully', status: 'success' }];
+    return [200, images];
   });
 
   mock.onPost(`${API_URL}${endpoints.images}`).reply(config => {
@@ -180,7 +178,7 @@ export const setupMocks = (instance: AxiosInstance) => {
 
     _images.push(image);
 
-    return [201, { data: image, message: 'Image uploaded successfully', status: 'success' }];
+    return [201, image];
   });
 
   mock.onPut(new RegExp(`${API_URL}${endpoints.images}/\\d+`)).reply(config => {
@@ -198,7 +196,7 @@ export const setupMocks = (instance: AxiosInstance) => {
       id, // Ensure ID doesn't change
     };
 
-    return [200, { data: _images[index], message: 'Image updated successfully', status: 'success' }];
+    return [200, _images[index]];
   });
 
   mock.onDelete(new RegExp(`${API_URL}${endpoints.images}/\\d+`)).reply(config => {
@@ -219,7 +217,7 @@ export const setupMocks = (instance: AxiosInstance) => {
       }
     }
 
-    return [200, { data: {}, message: 'Image deleted successfully', status: 'success' }];
+    return [200, {}];
   });
 
   /* -------------------------------------------------------------------------- */
@@ -234,25 +232,14 @@ export const setupMocks = (instance: AxiosInstance) => {
       return [404, { message: 'Annotation not found', status: 'error' }];
     }
 
-    return [
-      200,
-      {
-        data: annotation,
-        message: 'Annotation fetched successfully',
-        status: 'success',
-      },
-    ];
+    return [200, annotation];
   });
 
   mock.onGet(`${API_URL}${endpoints.annotations}/count`).reply(() => {
-    return [200, { data: _annotations.length, message: 'Annotations fetched successfully', status: 'success' }];
+    return [200, _annotations.length];
   });
 
-  mock.onGet(`${API_URL}${endpoints.annotations}`).reply(200, {
-    data: _annotations,
-    message: 'Annotations fetched successfully',
-    status: 'success',
-  });
+  mock.onGet(`${API_URL}${endpoints.annotations}`).reply(200, _annotations);
 
   mock.onPost(`${API_URL}${endpoints.annotations}`).reply(config => {
     const newAnnotation = JSON.parse(config.data);
@@ -267,14 +254,7 @@ export const setupMocks = (instance: AxiosInstance) => {
 
     _annotations.push(annotation);
 
-    return [
-      201,
-      {
-        data: annotation,
-        message: 'Annotation created successfully',
-        status: 'success',
-      },
-    ];
+    return [201, annotation];
   });
 
   mock.onPut(new RegExp(`${API_URL}${endpoints.annotations}/\\d+`)).reply(config => {
@@ -292,14 +272,7 @@ export const setupMocks = (instance: AxiosInstance) => {
       id, // Ensure ID doesn't change
     };
 
-    return [
-      200,
-      {
-        data: _annotations[index],
-        message: 'Annotation updated successfully',
-        status: 'success',
-      },
-    ];
+    return [200, _annotations[index]];
   });
 
   mock.onDelete(new RegExp(`${API_URL}${endpoints.annotations}/\\d+`)).reply(config => {
@@ -312,13 +285,6 @@ export const setupMocks = (instance: AxiosInstance) => {
 
     _annotations.splice(index, 1);
 
-    return [
-      200,
-      {
-        data: {},
-        message: 'Annotation deleted successfully',
-        status: 'success',
-      },
-    ];
+    return [200, {}];
   });
 };

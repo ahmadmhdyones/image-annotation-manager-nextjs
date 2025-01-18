@@ -6,14 +6,9 @@ export interface TRequest<Data = never, Params = Record<string, string | number 
   extends AxiosRequestConfig<Data> {
   url: string;
   method: Method;
-  showNotification?: boolean;
   params?: Params;
 }
 
-export type TResponse<Data = never> = {
-  status: 'success' | 'fail' | 'error';
-  data: Data;
-  message: string;
-};
+export type TResponse<Data = never> = Data;
 
 export type ResourceCreateUpdateInput<TResource> = Omit<TResource, 'id' | 'createdAt' | 'updatedAt' | 'uploadedAt'>;
