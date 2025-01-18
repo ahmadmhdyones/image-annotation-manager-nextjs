@@ -7,13 +7,14 @@ import { Edit, Delete, LocalOffer } from '@mui/icons-material';
 import { Box, Avatar, ListItem, IconButton, ListItemText, ListItemAvatar } from '@mui/material';
 
 import EmptyContent from '@/components/ui/empty-content';
+import ErrorContent from '@/components/ui/error-content';
+import ConfirmActionButton from '@/components/ui/confirm-action-button';
 
 import { ICategory } from '@/types/models/category.types';
 
 import { paths } from '@/helpers/map-routes';
 
 import ListSkeleton from './list-skeleton';
-import ErrorContent from '../ui/error-content';
 import useGetCategories from './hooks/use-get-categories';
 import { useDeleteCategory } from './hooks/use-delete-category';
 import useInvalidateCategories from './hooks/use-invalidate-categories';
@@ -100,9 +101,18 @@ export default function ListContent({ initialData = [] }: { initialData?: ICateg
               <Edit />
             </IconButton>
 
-            <IconButton disabled={isRefetching} edge='end' onClick={() => deleteMutation(id)}>
-              <Delete />
-            </IconButton>
+            <ConfirmActionButton
+              confirmButtonColor='error'
+              confirmButtonText='Delete'
+              description={`Are you sure you want to delete the category "${name}"? `}
+              maxWidth='sm'
+              onConfirm={() => deleteMutation(id)}
+              title={`Delete ${name}`}
+            >
+              <IconButton disabled={isRefetching} edge='end'>
+                <Delete />
+              </IconButton>
+            </ConfirmActionButton>
           </Box>
         </ListItem>
       ))}
