@@ -1,7 +1,6 @@
 import { ButtonProps } from '@mui/material';
 
 import { CanvasTools } from './canvas-tools.enum';
-import { IAnnotation } from './models/annotation.types';
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +34,7 @@ export interface TLine {
 }
 
 export type AnnotationShape<T = never> = {
-  id: IAnnotation['id'] | undefined;
+  id: number | undefined;
   uuid: string;
   color: string;
   coordinates: T;
