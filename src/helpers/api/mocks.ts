@@ -12,7 +12,7 @@ import { endpoints } from './endpoints';
 
 export const setupMocks = (instance: AxiosInstance) => {
   const mock = new AxiosMockAdapter(instance, {
-    delayResponse: 1000,
+    delayResponse: 5000,
     onNoMatch: 'passthrough',
   });
 
@@ -143,22 +143,22 @@ export const setupMocks = (instance: AxiosInstance) => {
     const params = new URLSearchParams(config.params);
     let images = _images;
 
-    // Support filtering by categoryId from query params
-    const categoryId = params.get(QueryParams.CATEGORY);
-    if (categoryId) {
-      images = images.filter(img => img.categoryId === parseInt(categoryId));
+    // Filter by name
+    const name = params.get(QueryParams.NAME)?.toLowerCase();
+    if (name) {
+      images = images.filter(img => img.name.toLowerCase().includes(name));
     }
 
-    // support filtering by image name from query params
-    const imageName = params.get(QueryParams.NAME)?.toLowerCase();
-    if (imageName) {
-      images = images.filter(img => img.name.toLowerCase().includes(imageName));
+    // Filter by format
+    const format = params.get(QueryParams.FORMAT)?.toLowerCase();
+    if (format) {
+      images = images.filter(img => img.metadata.format.toLowerCase() === format);
     }
 
-    // support filtering by image format from query params
-    const imageFormat = params.get(QueryParams.FORMAT)?.toLowerCase();
-    if (imageFormat) {
-      images = images.filter(img => img.metadata.format.toLowerCase().includes(imageFormat));
+    // Filter by resolution
+    const resolution = params.get(QueryParams.RESOLUTION);
+    if (resolution) {
+      images = images.filter(img => `${img.metadata.resolution}` === resolution);
     }
 
     return [200, images];
