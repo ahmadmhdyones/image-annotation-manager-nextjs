@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
+import { Toaster } from 'react-hot-toast';
 import { NextAppProvider } from '@toolpad/core/nextjs';
 
 import { CssBaseline } from '@mui/material';
@@ -41,6 +42,7 @@ export default function RootLayout({
               theme={theme}
             >
               <CssBaseline />
+              <Toaster position='top-right' reverseOrder={false} />
               <ReactQueryProvider>{children}</ReactQueryProvider>
             </NextAppProvider>
           </Suspense>

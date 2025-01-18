@@ -55,6 +55,7 @@
     "next": "15.2.0-canary.11",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-hot-toast": "^2.5.1",
     "react-konva": "^19.0.2",
     "react-virtualized-auto-sizer": "^1.0.25",
     "react-window": "^1.8.11",
