@@ -33,7 +33,7 @@ export function useErase({ lines, onAnnotationDelete, rectangles, setLines, setR
       }
 
       if (!elementId) {
-        toast.error('Annotation not synced yet');
+        toast.error('Please wait - previous drawing is still saving');
         return;
       }
 
