@@ -51,7 +51,7 @@ export default function ListItem({ image, isRefetching, onDelete }: Props) {
             display='flex'
             flexDirection={{ md: 'row', xs: 'column' }}
             justifyContent='flex-end'
-            sx={{ gap: 0.5, height: '100%', pb: { md: 1.5, xs: 0 }, pt: { md: 1.5, xs: 1 } }}
+            sx={{ gap: 0.5, height: '100%', pt: { md: 1.5, xs: 1 } }}
           >
             <AnnotationCountButton disabled={isRefetching} imageId={image.id} />
 
@@ -80,7 +80,7 @@ export default function ListItem({ image, isRefetching, onDelete }: Props) {
         }
         position='below'
         subtitle={
-          <Stack alignItems='center' direction='row' spacing={1}>
+          <Stack alignItems='center' direction='row' spacing={1} sx={{ marginTop: 'auto' }}>
             <Typography component='span' variant='caption'>
               {[image.metadata?.resolution, image.metadata?.format, image.metadata?.size].filter(Boolean).join(' • ')}
             </Typography>
@@ -91,7 +91,15 @@ export default function ListItem({ image, isRefetching, onDelete }: Props) {
             />
           </Stack>
         }
-        sx={{ justifyContent: 'space-between' }}
+        sx={{
+          '& .MuiImageListItemBar-titleWrap': {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            pb: 0,
+          },
+          'justifyContent': 'space-between',
+        }}
         title={
           <Typography
             component='span'
