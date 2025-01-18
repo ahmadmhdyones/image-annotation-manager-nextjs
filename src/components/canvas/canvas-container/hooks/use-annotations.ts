@@ -16,7 +16,7 @@ export function useAnnotations(imageId: IImage['id']) {
     isLoading: isLoadingAnnotations,
     isRefetching: isRefetchingAnnotations,
   } = useQuery({
-    queryFn: () => imageAPI.getAnnotations(imageId),
+    queryFn: async () => await imageAPI.getAnnotations(imageId),
     queryKey: [queryKeys.imageAnnotations(imageId)],
   });
 

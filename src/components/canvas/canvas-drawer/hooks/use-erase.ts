@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Shape } from 'konva/lib/Shape';
+import { toast } from 'react-hot-toast';
 import { Stage as StageType } from 'konva/lib/Stage';
 
 import { IAnnotation } from '@/types/models/annotation.types';
@@ -32,7 +33,7 @@ export function useErase({ lines, onAnnotationDelete, rectangles, setLines, setR
       }
 
       if (!elementId) {
-        console.warn('Element does not have an id');
+        toast.error('Annotation not synced yet');
         return;
       }
 
