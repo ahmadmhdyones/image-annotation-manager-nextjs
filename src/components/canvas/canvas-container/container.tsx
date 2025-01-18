@@ -9,18 +9,18 @@ import { IImage } from '@/types/models/image.types';
 
 import { CANVAS_TOOLS } from '@/configs/canvas.config';
 
-import CanvasDrawer from './canvas-drawer';
-import CanvasLoading from './canvas-loading';
-import { useAnnotations } from './canvas-container/hooks/use-annotations';
-import { useElementSize } from './canvas-container/hooks/use-element-size';
-import { useCanvasTools } from './canvas-container/hooks/use-canvas-tools';
-import { useCanvasCursor } from './canvas-container/hooks/use-canvas-cursor';
-import { useInvalidateAnnotations } from './canvas-container/hooks/use-invalidate-annotations';
-const CanvasToolbar = dynamic(() => import('./canvas-toolbar'), { ssr: false });
+import CanvasDrawer from '../canvas-drawer';
+import CanvasLoading from '../canvas-loading';
+import { useAnnotations } from './hooks/use-annotations';
+import { useElementSize } from './hooks/use-element-size';
+import { useCanvasTools } from './hooks/use-canvas-tools';
+import { useCanvasCursor } from './hooks/use-canvas-cursor';
+import { useInvalidateAnnotations } from './hooks/use-invalidate-annotations';
+const CanvasToolbar = dynamic(() => import('../canvas-toolbar'), { ssr: false });
 
 // ----------------------------------------------------------------------
 
-export default function CanvasContainer({ image }: { image: IImage }) {
+export default function Container({ image }: { image: IImage }) {
   const containerRef = useRef<HTMLElement>(null);
   const size = useElementSize(containerRef);
   const [loading, setLoading] = useState(true);

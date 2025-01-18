@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-export default function CanvasLoading() {
+export default function CanvasLoading({ text = 'Loading...' }: { text?: string }) {
   return (
     <Box
       component='div'
@@ -25,7 +25,7 @@ export default function CanvasLoading() {
         zIndex: 9999,
       }}
     >
-      Loading...
+      {text}
     </Box>
   );
 }

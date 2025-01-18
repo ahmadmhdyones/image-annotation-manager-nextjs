@@ -1,116 +1,78 @@
-import { Shape } from 'konva/lib/Shape';
-import { ShapeConfig } from 'konva/lib/Shape';
+import { useMemo, useCallback } from 'react';
+import { StageConfig } from 'konva/lib/Stage';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Line, Rect, Stage, Layer } from 'react-konva';
-import { useRef, useMemo, useState, useCallback } from 'react';
-import { StageConfig, Stage as StageType } from 'konva/lib/Stage';
 
+import { Size } from '@/types/canvas.types';
 import { IImage } from '@/types/models/image.types';
 import { CanvasTools } from '@/types/canvas-tools.enum';
-import { AnnotationShapes } from '@/types/annotation-shapes.enum';
-import { Size, TLine, TPoint, TRectangle, AnnotationShape } from '@/types/canvas.types';
+import { IAnnotation } from '@/types/models/annotation.types';
 
 import {
   CANVAS_TENSION,
-  CANVAS_ZOOM_SCALE,
   CANVAS_STROKE_WIDTH,
   CANVAS_DASH_PATTERN,
   CANVAS_DEFAULT_POINT,
 } from '@/configs/canvas.config';
 
+import { ResourceCreateUpdateInput } from '@/helpers/api/types';
+
 import LayerImage from './layer-image';
-import { getStagePoint, isDrawingTool, getRectDimensions } from '../helpers';
+import { useZoom } from './hooks/use-zoom';
+import { useErase } from './hooks/use-erase';
+import { useDrawing } from './hooks/use-drawing';
+import { useAnnotations } from './hooks/use-annotations';
+import { getStagePoint, isDrawingTool } from '../helpers';
 
 // ----------------------------------------------------------------------
 
 interface Props extends StageConfig {
+  annotations?: IAnnotation[];
   tool: CanvasTools;
   size: Size;
   imageURL: IImage['url'];
   loading: boolean;
   handleLoading: (value: boolean) => void;
   color: string;
+  onAnnotationCreate: (annotation: Omit<ResourceCreateUpdateInput<IAnnotation>, 'imageId'>) => Promise<IAnnotation>;
+  onAnnotationDelete: (id: IAnnotation['id']) => void;
 }
 
 // Constants
 
-export default function Drawer({ color, handleLoading, imageURL, loading, size, tool, ...rest }: Props) {
-  const [lines, setLines] = useState<AnnotationShape<TLine>[]>([]);
-  const [rectangles, setRectangles] = useState<AnnotationShape<TRectangle>[]>([]);
-  const [tempRectangle, setTempRectangle] = useState<TRectangle | null>(null);
-  const isDrawing = useRef(false);
-  const startPos = useRef<TPoint | null>(null);
+export default function Drawer({
+  annotations = [],
+  color,
+  handleLoading,
+  imageURL,
+  loading,
+  onAnnotationCreate,
+  onAnnotationDelete,
+  size,
+  tool,
+  ...rest
+}: Props) {
+  const { lines, rectangles, setLines, setRectangles } = useAnnotations(annotations);
 
-  const startDrawLine = useCallback((stagePoint: TPoint, color: string) => {
-    setLines(prev => [...prev, { color, points: [stagePoint.x, stagePoint.y] }]);
-  }, []);
-  const resizeDrawLine = useCallback(
-    (stagePoint: TPoint) => {
-      const lastLine = lines[lines.length - 1];
-      lastLine.points = lastLine.points.concat([stagePoint.x, stagePoint.y]);
-      lines.splice(lines.length - 1, 1, lastLine);
-      setLines(lines.concat());
-    },
-    [lines]
-  );
+  const { handleZoom } = useZoom();
 
-  const startDrawRectangle = useCallback((stagePoint: TPoint) => {
-    startPos.current = stagePoint;
-    setTempRectangle({ height: 0, width: 0, x: stagePoint.x, y: stagePoint.y });
-  }, []);
-  const resizeDrawRectangle = useCallback(
-    (stagePoint: TPoint) => {
-      if (startPos.current && tempRectangle) {
-        const newRect = getRectDimensions(startPos.current, stagePoint);
-        setTempRectangle(newRect);
-      }
-    },
-    [tempRectangle]
-  );
-  const finalizeDrawRectangle = useCallback(() => {
-    if (tempRectangle) {
-      setRectangles(prev => [...prev, { ...tempRectangle, color }]);
-      setTempRectangle(null);
-      startPos.current = null;
-    }
-  }, [tempRectangle, color]);
+  const {
+    finalizeDrawLine,
+    finalizeDrawRectangle,
+    isDrawing,
+    resizeDrawLine,
+    resizeDrawRectangle,
+    startDrawLine,
+    startDrawRectangle,
+    tempRectangle,
+  } = useDrawing({
+    color,
+    onAnnotationCreate,
+    setLines,
+    setRectangles,
+  });
 
-  const handleZoom = useCallback((e: KonvaEventObject<WheelEvent>) => {
-    e.evt.preventDefault();
-
-    const stage = e.target.getStage();
-    if (!stage) return;
-
-    const scaleBy = CANVAS_ZOOM_SCALE;
-    const oldScale = stage.scaleX();
-    const pointerPosition = stage.getPointerPosition() ?? CANVAS_DEFAULT_POINT;
-
-    const mousePointTo = {
-      x: pointerPosition.x / oldScale - stage.x() / oldScale,
-      y: pointerPosition.y / oldScale - stage.y() / oldScale,
-    };
-
-    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
-    stage.scale({ x: newScale, y: newScale });
-
-    const newPos = {
-      x: -(mousePointTo.x - pointerPosition.x / newScale) * newScale,
-      y: -(mousePointTo.y - pointerPosition.y / newScale) * newScale,
-    };
-
-    stage.position(newPos);
-  }, []);
-
-  const handleErase = useCallback((target: Shape<ShapeConfig> | StageType) => {
-    const elementName = target.name();
-    const elementIndex = Number(target.id());
-
-    if (elementName === AnnotationShapes.LINE) {
-      setLines(prev => prev.filter((_, index) => index !== elementIndex));
-    } else if (elementName === AnnotationShapes.RECTANGLE) {
-      setRectangles(prev => prev.filter((_, index) => index !== elementIndex));
-    }
-  }, []);
+  const { handleErase } = useErase({ lines, onAnnotationDelete, rectangles, setLines, setRectangles });
 
   const handleMouseDown = useCallback(
     (e: KonvaEventObject<MouseEvent>) => {
@@ -130,11 +92,11 @@ export default function Drawer({ color, handleLoading, imageURL, loading, size, 
         if (tool === CanvasTools.RECTANGLE) {
           startDrawRectangle(stagePoint);
         } else {
-          startDrawLine(stagePoint, color);
+          startDrawLine(stagePoint);
         }
       }
     },
-    [tool, handleErase, startDrawRectangle, startDrawLine, color]
+    [tool, handleErase, isDrawing, startDrawRectangle, startDrawLine]
   );
 
   const handleMouseMove = useCallback(
@@ -154,33 +116,37 @@ export default function Drawer({ color, handleLoading, imageURL, loading, size, 
         resizeDrawLine(stagePoint);
       }
     },
-    [tool, resizeDrawRectangle, resizeDrawLine]
+    [tool, isDrawing, resizeDrawRectangle, resizeDrawLine]
   );
 
   const handleMouseUp = useCallback(() => {
     isDrawing.current = false;
 
     if (tool === CanvasTools.RECTANGLE) finalizeDrawRectangle();
-  }, [tool, finalizeDrawRectangle]);
+    if (tool === CanvasTools.DRAW) finalizeDrawLine();
+  }, [isDrawing, tool, finalizeDrawRectangle, finalizeDrawLine]);
 
   const drawingLayer = useMemo(
     () => (
-      <Layer>
+      <Layer id='canvas-drawing-layer'>
+        {/* Rectangles */}
         {rectangles.map((rect, i) => (
-          <Rect id={i.toString()} key={i} name='rectangle' {...rect} stroke={rect.color} />
+          <Rect id={rect.uuid} key={rect.uuid} name='rectangle' stroke={rect.color} {...rect.coordinates} />
         ))}
         {tempRectangle && <Rect dash={CANVAS_DASH_PATTERN} stroke={color} {...tempRectangle} />}
+
+        {/* Lines */}
         {lines.map((line, i) => (
           <Line
-            id={i.toString()}
-            key={i}
+            id={line.uuid}
+            key={line.uuid}
             lineCap='round'
             lineJoin='round'
             name='line'
-            points={line.points}
             stroke={line.color}
             strokeWidth={CANVAS_STROKE_WIDTH}
             tension={CANVAS_TENSION}
+            {...line.coordinates}
           />
         ))}
       </Layer>
@@ -200,7 +166,13 @@ export default function Drawer({ color, handleLoading, imageURL, loading, size, 
       width={size.width}
       {...rest}
     >
-      <LayerImage handleLoading={handleLoading} imageURL={imageURL} x={size.width} y={size.height} />
+      <LayerImage
+        handleLoading={handleLoading}
+        id='canvas-image-layer'
+        imageURL={imageURL}
+        x={size.width}
+        y={size.height}
+      />
 
       {drawingLayer}
     </Stage>
