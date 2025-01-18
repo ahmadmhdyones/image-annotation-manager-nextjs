@@ -1,78 +1,85 @@
 'use client';
 
-import { z } from 'zod';
-import MDEditor from '@uiw/react-md-editor';
-import { useRouter } from 'next/navigation';
-import { useState, useActionState } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
 
 import { Alert, Stack } from '@mui/material';
 import { Box, Button, TextField, Typography, CircularProgress } from '@mui/material';
 
 import { ICategory } from '@/types/models/category.types';
 
-import { paths } from '@/helpers/map-routes';
-import { categoryAPI } from '@/helpers/api/resources/category';
+import { RouteParams } from '@/helpers/map-params';
 
-import { formSchema } from './validation';
+import { CategoryFormSkeleton } from '.';
+import useGetCategory from './hooks/use-get-category';
+import { DescriptionField } from './field-description';
+import useCreateCategory from './hooks/use-create-category';
+import useUpdateCategory from './hooks/use-update-category';
+import { useCategoryForm } from './hooks/use-form-category';
 
 // ----------------------------------------------------------------------
 
 export default function Form({ category }: { category?: ICategory | undefined }) {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [description, setDescription] = useState<string>(category?.description || '');
-  const [name, setName] = useState<string>(category?.name || '');
-  const [image, setImage] = useState<string>(category?.image || '');
-  const router = useRouter();
+  const params = useParams<{ [RouteParams.ID]: string }>();
+  const isEdit = !!params.id;
 
-  const handleSubmit = async (prevState: any, formData: FormData) => {
+  const {
+    formState: { description, errors, image, isSubmitting, name },
+    setters: { setDescription, setImage, setIsSubmitting, setName },
+    validateForm,
+  } = useCategoryForm(category);
+
+  const { isPending: isCreating, mutateAsync: createCategory } = useCreateCategory();
+  const { isPending: isUpdating, mutateAsync: updateCategory } = useUpdateCategory(category!);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formValues = { description, image, name };
+    setIsSubmitting(true);
+
     try {
-      const formValues = {
-        description: formData.get('description') as string,
-        image: formData.get('image') as string,
-        name: formData.get('name') as string,
-      };
+      const isValid = await validateForm(formValues);
+      if (!isValid) return;
 
-      await formSchema.parseAsync(formValues);
-
-      if (category) {
-        await categoryAPI.update(category.id, formValues);
+      if (isEdit) {
+        await updateCategory(formValues);
       } else {
-        await categoryAPI.create(formValues);
+        await createCategory(formValues);
       }
-
-      // TODO: Fix this. Should revalidate the page to clear cached data to not affect the react-query initial data from the server
-      // revalidatePath('/', 'page');
-      router.push(paths.dashboard.categories.root.to());
-
-      return {
-        ...prevState,
-        error: '',
-        status: 'SUCCESS',
-      };
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const { fieldErrors } = error.flatten();
-
-        setErrors(fieldErrors as unknown as Record<string, string>);
-
-        return { ...prevState, error: 'Validation failed', status: 'ERROR' };
-      }
-
-      return {
-        ...prevState,
-        error: 'An unexpected error has occurred',
-        status: 'ERROR',
-      };
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const [state, formAction, isPending] = useActionState(handleSubmit, { error: '', status: 'INITIAL' });
+  const disabled = isSubmitting || isCreating || isUpdating;
+
+  const {
+    data: fetchedCategory,
+    isFetched: isFetchedCategory,
+    isLoading: isLoadingCategory,
+    isStale,
+  } = useGetCategory(Number(params.id), {
+    initialData: category,
+  });
+
+  useEffect(() => {
+    if (isFetchedCategory && fetchedCategory) {
+      setName(fetchedCategory.name);
+      setDescription(fetchedCategory.description);
+      setImage(fetchedCategory.image);
+    }
+  }, [fetchedCategory, isFetchedCategory, setName, setDescription, setImage]);
+
+  if (isEdit && isLoadingCategory && (isStale || !category)) {
+    return <CategoryFormSkeleton />;
+  }
 
   return (
     <Box
-      action={formAction}
       component='form'
       noValidate
+      onSubmit={handleSubmit}
       sx={{
         bgcolor: 'background.paper',
         borderRadius: 2,
@@ -90,7 +97,6 @@ export default function Form({ category }: { category?: ICategory | undefined })
         {category ? 'Edit Category' : 'Create a New Category'}
       </Typography>
 
-      {/* Name Field */}
       <TextField
         error={!!errors.name}
         fullWidth
@@ -105,7 +111,6 @@ export default function Form({ category }: { category?: ICategory | undefined })
         variant='outlined'
       />
 
-      {/* Image URL Field */}
       <TextField
         error={!!errors.image}
         fullWidth
@@ -115,52 +120,22 @@ export default function Form({ category }: { category?: ICategory | undefined })
         name='image'
         onChange={e => setImage(e.target.value)}
         placeholder='https://example.com/image.jpg'
+        required
         value={image}
         variant='outlined'
       />
 
-      {/* Description Field */}
-      <Box data-color-mode='dark' sx={{ width: '100%' }}>
-        <Typography
-          gutterBottom
-          sx={{ color: errors.description ? 'error.main' : 'text.primary', fontWeight: 500 }}
-          variant='subtitle1'
-        >
-          Description
-        </Typography>
-        <MDEditor
-          height={300}
-          id='description'
-          onChange={value => setDescription(value as string)}
-          preview='edit'
-          previewOptions={{ disallowedElements: ['style'] }}
-          style={{
-            border: errors.description ? '1px solid #d32f2f' : '1px solid #ccc',
-            borderRadius: 8,
-            overflow: 'hidden',
-          }}
-          textareaProps={{ placeholder: 'Describe your category...' }}
-          value={description}
-        />
-        {errors.description && (
-          <Typography color='error' sx={{ mt: 1 }} variant='body2'>
-            {errors.description}
-          </Typography>
-        )}
-        <input name='description' type='hidden' value={description} />
-      </Box>
+      <DescriptionField error={errors.description} onChange={setDescription} value={description} />
 
-      {/* Submit Button */}
       <Stack alignItems='center' direction='row' justifyContent='center' spacing={2}>
-        <Button color='primary' disabled={isPending} fullWidth sx={{ height: 50 }} type='submit' variant='contained'>
-          {isPending ? <CircularProgress size={24} /> : category ? 'Update' : 'Create'}
+        <Button color='primary' disabled={disabled} fullWidth sx={{ height: 50 }} type='submit' variant='contained'>
+          {disabled ? <CircularProgress size={24} /> : isEdit ? 'Update' : 'Create'}
         </Button>
       </Stack>
 
-      {/* Error or Success Messages */}
-      {state.error && (
+      {errors.submit && (
         <Alert severity='error' sx={{ mt: 2 }}>
-          {state.error}
+          {errors.submit}
         </Alert>
       )}
     </Box>

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
 
 import { Edit, Delete, LocalOffer } from '@mui/icons-material';
 import { Box, Avatar, ListItem, IconButton, ListItemText, ListItemAvatar } from '@mui/material';
@@ -12,11 +11,10 @@ import EmptyContent from '@/components/ui/empty-content';
 import { ICategory } from '@/types/models/category.types';
 
 import { paths } from '@/helpers/map-routes';
-import { categoryAPI } from '@/helpers/api/resources/category';
-import { queryKeys } from '@/helpers/react-query/query-keys.enum';
 
 import ListSkeleton from './list-skeleton';
 import ErrorContent from '../ui/error-content';
+import useGetCategories from './hooks/use-get-categories';
 import { useDeleteCategory } from './hooks/use-delete-category';
 import useInvalidateCategories from './hooks/use-invalidate-categories';
 
@@ -33,17 +31,7 @@ import useInvalidateCategories from './hooks/use-invalidate-categories';
  */
 
 export default function ListContent({ initialData = [] }: { initialData?: ICategory[] }) {
-  const {
-    data: categories = [],
-    error,
-    isError,
-    isLoading,
-    isRefetching,
-  } = useQuery({
-    initialData,
-    queryFn: async () => await categoryAPI.getMany(),
-    queryKey: [queryKeys.categories()],
-  });
+  const { data: categories = [], error, isError, isLoading, isRefetching } = useGetCategories(initialData);
 
   const {
     error: deleteError,
@@ -57,7 +45,7 @@ export default function ListContent({ initialData = [] }: { initialData?: ICateg
   useInvalidateCategories({ shouldInvalidate: isDeleted || isDeleteError });
 
   if (isError) return <ErrorContent error={error} />;
-  if (isLoading || isRefetching) return <ListSkeleton />;
+  if (isLoading) return <ListSkeleton />;
   if (isDeleteError) return <ErrorContent error={deleteError} />;
 
   if (categories.length === 0) {
@@ -72,6 +60,8 @@ export default function ListContent({ initialData = [] }: { initialData?: ICateg
 
   return (
     <>
+      {isRefetching && <ListSkeleton count={1} />}
+
       {categories.map(({ description, id, image, name }) => (
         <ListItem key={id}>
           <ListItemAvatar sx={{ marginBottom: 'auto' }}>
@@ -102,7 +92,7 @@ export default function ListContent({ initialData = [] }: { initialData?: ICateg
 
           <Box sx={{ display: 'flex', flexDirection: { md: 'row', xs: 'column' }, gap: { md: 2, xs: 1 } }}>
             <IconButton
-              disabled={isDeleting}
+              disabled={isDeleting || isRefetching}
               edge='end'
               href={paths.dashboard.categories.id.edit.to(id.toString())}
               LinkComponent={Link}
@@ -110,7 +100,7 @@ export default function ListContent({ initialData = [] }: { initialData?: ICateg
               <Edit />
             </IconButton>
 
-            <IconButton edge='end' onClick={() => deleteMutation(id)}>
+            <IconButton disabled={isRefetching} edge='end' onClick={() => deleteMutation(id)}>
               <Delete />
             </IconButton>
           </Box>

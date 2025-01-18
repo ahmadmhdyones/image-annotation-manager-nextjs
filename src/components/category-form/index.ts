@@ -1,9 +1,8 @@
-import Form from './form';
 import FormSkeleton from './form-skeleton';
+import { default as CategoryForm } from './form';
 
 // ----------------------------------------------------------------------
 
-const CategoryForm = Form;
-export const CategoryFormSkeleton = FormSkeleton;
-
 export default CategoryForm;
+export const CategoryFormSkeleton = FormSkeleton;
+export { default as CategoryTitle } from './title';
