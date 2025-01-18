@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 import { Edit, Delete, LocalOffer } from '@mui/icons-material';
 import { Box, Avatar, ListItem, IconButton, ListItemText, ListItemAvatar } from '@mui/material';
@@ -47,7 +48,10 @@ export default function ListContent({ initialData = [] }: { initialData?: ICateg
 
   if (isError) return <ErrorContent error={error} />;
   if (isLoading) return <ListSkeleton />;
-  if (isDeleteError) return <ErrorContent error={deleteError} />;
+  if (isDeleteError) {
+    toast.error('Something went wrong while deleting the category, please reload the page.');
+    return <ErrorContent error={deleteError} />;
+  }
 
   if (categories.length === 0) {
     return (

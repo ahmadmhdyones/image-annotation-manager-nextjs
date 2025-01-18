@@ -1,4 +1,3 @@
-import { toast } from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { ICategory } from '@/types/models/category.types';
@@ -42,9 +41,6 @@ export const useDeleteCategory = () => {
 
       // Return context with the previous categories
       return { previousCategories };
-    },
-    onSuccess: () => {
-      toast.success('Category deleted successfully');
     },
   });
 };
