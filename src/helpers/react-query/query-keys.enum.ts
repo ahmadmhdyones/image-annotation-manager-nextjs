@@ -1,4 +1,5 @@
 import { IImage } from '@/types/models/image.types';
+import { ICategory } from '@/types/models/category.types';
 
 // ----------------------------------------------------------------------
 
@@ -10,6 +11,7 @@ export const queryKeys = {
   // Categories
   categories: () => 'categories',
   categoriesCount: () => 'categories-count',
+  category: (id: ICategory['id']) => `category-${id}`,
 
   // Images
   image: (id: IImage['id']) => `image-${id}`,

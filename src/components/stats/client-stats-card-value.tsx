@@ -20,8 +20,8 @@ export default function ClientStatsCardValue({ queryFn, queryKey }: ClientStatsC
 
   if (error)
     return (
-      <Typography color='error' variant='inherit'>
-        {error instanceof Error ? error.message : 'An error occurred'}
+      <Typography color='error' variant='subtitle2'>
+        Something went wrong
       </Typography>
     );
 

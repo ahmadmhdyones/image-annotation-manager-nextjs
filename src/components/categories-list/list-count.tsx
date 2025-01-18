@@ -24,7 +24,7 @@ export default function ListCount() {
     isLoading,
     isRefetching,
   } = useQuery({
-    queryFn: () => categoryAPI.getCount(),
+    queryFn: async () => await categoryAPI.getCount(),
     queryKey: [queryKeys.categoriesCount()],
   });
 

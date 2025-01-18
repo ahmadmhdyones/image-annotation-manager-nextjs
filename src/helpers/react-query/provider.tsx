@@ -13,16 +13,16 @@ export default function Provider({ children }: Readonly<{ children: React.ReactN
         defaultOptions: {
           mutations: {
             networkMode: 'offlineFirst',
-            retry: 1,
-            throwOnError: true,
+            retry: 0,
+            throwOnError: false,
           },
           queries: {
             networkMode: 'offlineFirst',
             refetchInterval: false,
-            retry: 1,
+            retry: 0,
             retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
             staleTime: 1000 * 60,
-            throwOnError: true,
+            throwOnError: false,
           },
         },
       })

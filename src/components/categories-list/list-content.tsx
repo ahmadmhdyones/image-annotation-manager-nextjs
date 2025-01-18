@@ -32,7 +32,7 @@ import useInvalidateCategories from './hooks/use-invalidate-categories';
  * - Reusing form logic for both create and edit operations
  */
 
-export default function ListContent({ initialData }: { initialData?: ICategory[] }) {
+export default function ListContent({ initialData = [] }: { initialData?: ICategory[] }) {
   const {
     data: categories = [],
     error,
@@ -41,7 +41,7 @@ export default function ListContent({ initialData }: { initialData?: ICategory[]
     isRefetching,
   } = useQuery({
     initialData,
-    queryFn: () => categoryAPI.getMany(),
+    queryFn: async () => await categoryAPI.getMany(),
     queryKey: [queryKeys.categories()],
   });
 
