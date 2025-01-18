@@ -7,5 +7,5 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <MUIDashboardLayout>{children}</MUIDashboardLayout>;
+  return <MUIDashboardLayout defaultSidebarCollapsed>{children}</MUIDashboardLayout>;
 }
