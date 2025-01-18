@@ -1,4 +1,7 @@
 import { IAnnotation } from '@/types/models/annotation.types';
+import { AnnotationShapes } from '@/types/annotation-shapes.enum';
+
+import { API_MOCK_INITIAL_DATA_COUNT_ANNOTATIONS } from '@/configs/global.config';
 
 import { _images } from './_image';
 
@@ -21,8 +24,8 @@ const _annotationColors = [
 ];
 
 // Helper function to generate random coordinates within typical image dimensions
-const generateCoordinates = (type: 'rectangle' | 'line') => {
-  if (type === 'rectangle') {
+const generateCoordinates = (type: AnnotationShapes.RECTANGLE | AnnotationShapes.LINE) => {
+  if (type === AnnotationShapes.RECTANGLE) {
     return {
       height: Math.floor(Math.random() * 200) + 50, // height between 50-250
       width: Math.floor(Math.random() * 200) + 50, // width between 50-250
@@ -43,9 +46,9 @@ const generateCoordinates = (type: 'rectangle' | 'line') => {
 };
 
 // Generate 1000+ annotations
-export const _annotations: IAnnotation[] = [...Array(1200)].map((_, index) => {
-  const type = index % 3 === 0 ? 'line' : 'rectangle'; // Mix of rectangle and line annotations
-  const imageId = (index % _images.length) + 1; // Link to existing images cyclically
+export const _annotations: IAnnotation[] = [...Array(API_MOCK_INITIAL_DATA_COUNT_ANNOTATIONS)].map((_, index) => {
+  const type = index % 3 === 0 ? AnnotationShapes.LINE : AnnotationShapes.RECTANGLE;
+  const imageId = Math.floor(Math.random() * _images.length) + 1;
 
   return {
     color: _annotationColors[index % _annotationColors.length],

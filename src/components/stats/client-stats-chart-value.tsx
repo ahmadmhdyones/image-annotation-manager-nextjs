@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Box, Skeleton, Typography } from '@mui/material';
 import { BarChart, PieChart, LineChart } from '@mui/x-charts';
 
+import { IAnnotation } from '@/types/models/annotation.types';
+
 import { queryKeys } from '@/helpers/react-query';
 
 // ----------------------------------------------------------------------
@@ -55,19 +57,24 @@ export default function ClientStatsChartValue({ fn, queryKey }: ClientStatsChart
   /* -------------------------- Hardcoded chart types -------------------------- */
   /* -------------------------------------------------------------------------- */
   if (queryKey[0] === queryKeys.annotations()) {
+    // Group annotations by type and count occurrences
+    const annotationCounts = data.reduce((acc: Record<string, number>, annotation: IAnnotation) => {
+      const { type } = annotation;
+      acc[type] = (acc[type] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Transform the counts into the format required by PieChart
+    const chartData = Object.entries(annotationCounts).map(([type, count]) => ({
+      id: type,
+      label: type,
+      value: count,
+    }));
+
     return (
       <PieChart
         height={300}
-        series={[
-          {
-            data: [
-              { id: 'Rectangle', label: 'Rectangle', value: 50 },
-              { id: 'Circle', label: 'Circle', value: 30 },
-              { id: 'Polygon', label: 'Polygon', value: 20 },
-            ],
-            highlightScope: { fade: 'global', highlight: 'item' },
-          },
-        ]}
+        series={[{ data: chartData as any, highlightScope: { fade: 'global', highlight: 'item' } }]}
       />
     );
   } else if (queryKey[0] === queryKeys.categories()) {

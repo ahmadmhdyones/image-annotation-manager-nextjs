@@ -1,11 +1,13 @@
 import { IImage } from '@/types/models/image.types';
 
+import { API_MOCK_INITIAL_DATA_COUNT_IMAGES } from '@/configs/global.config';
+
 import { _mock } from './_mock';
 import { _categories } from './_category';
 
 // ----------------------------------------------------------------------
 
-export const _images: IImage[] = [...Array(10)].map((_, index) => ({
+export const _images: IImage[] = [...Array(API_MOCK_INITIAL_DATA_COUNT_IMAGES)].map((_, index) => ({
   categoryId: (index % _categories.length) + 1,
   id: index + 1,
   metadata: {

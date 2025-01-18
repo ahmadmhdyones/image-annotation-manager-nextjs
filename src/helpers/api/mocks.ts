@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import AxiosMockAdapter from 'axios-mock-adapter';
 
-import { API_URL } from '@/configs/global.config';
+import { API_URL, API_MOCK_DELAY } from '@/configs/global.config';
 
 import { QueryParams } from '@/helpers/map-params';
 import { _images, _categories, _annotations } from '@/__mock__';
@@ -12,7 +12,7 @@ import { endpoints } from './endpoints';
 
 export const setupMocks = (instance: AxiosInstance) => {
   const mock = new AxiosMockAdapter(instance, {
-    delayResponse: 5000,
+    delayResponse: API_MOCK_DELAY,
     onNoMatch: 'passthrough',
   });
 
