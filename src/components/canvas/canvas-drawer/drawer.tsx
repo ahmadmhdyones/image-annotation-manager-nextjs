@@ -130,13 +130,13 @@ export default function Drawer({
     () => (
       <Layer id='canvas-drawing-layer'>
         {/* Rectangles */}
-        {rectangles.map((rect, i) => (
+        {rectangles.map(rect => (
           <Rect id={rect.uuid} key={rect.uuid} name='rectangle' stroke={rect.color} {...rect.coordinates} />
         ))}
         {tempRectangle && <Rect dash={CANVAS_DASH_PATTERN} stroke={color} {...tempRectangle} />}
 
         {/* Lines */}
-        {lines.map((line, i) => (
+        {lines.map(line => (
           <Line
             id={line.uuid}
             key={line.uuid}
