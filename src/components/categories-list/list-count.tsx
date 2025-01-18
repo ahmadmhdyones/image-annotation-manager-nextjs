@@ -21,22 +21,21 @@ export default function ListCount() {
   const {
     data: count,
     isError,
-    isFetching,
     isLoading,
-    isPending,
+    isRefetching,
   } = useQuery({
     queryFn: () => categoryAPI.getCount(),
     queryKey: [queryKeys.categoriesCount()],
   });
 
-  if (isLoading || isFetching || isPending)
+  if (isLoading || isRefetching)
     return (
       <Box sx={{ display: 'inline-block' }}>
         <Skeleton variant='text' width={30} />
       </Box>
     );
 
-  if (isError) return 'N/A';
+  if (isError) return '-';
 
   return count;
 }

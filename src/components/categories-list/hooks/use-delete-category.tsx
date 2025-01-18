@@ -22,11 +22,18 @@ export const useDeleteCategory = () => {
       queryClient.setQueryData([queryKeys.categories()], context?.previousCategories);
     },
     onMutate: async deletedId => {
+      // Cancel any outgoing refetches to avoid overwriting our optimistic update
       await queryClient.cancelQueries({ queryKey: [queryKeys.categories()] });
+
+      // Snapshot the previous value
       const previousCategories = queryClient.getQueryData<ICategory[]>([queryKeys.categories()]);
+
+      // Optimistically remove the category from the list
       queryClient.setQueryData<ICategory[]>([queryKeys.categories()], old =>
         old?.filter(category => category.id !== deletedId)
       );
+
+      // Return context with the previous categories
       return { previousCategories };
     },
     onSuccess: () => {
