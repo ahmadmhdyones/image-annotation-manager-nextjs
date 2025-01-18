@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { NextAppProvider } from '@toolpad/core/nextjs';
 
@@ -27,20 +28,22 @@ export default function RootLayout({
     <html data-toolpad-color-scheme='light' lang='en'>
       <body className={`${fonts.roboto.className}`}>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <NextAppProvider
-            branding={{
-              logo: <Logo />,
-              title: SITE.name
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase())
-                .join(' '),
-            }}
-            navigation={NAVIGATION}
-            theme={theme}
-          >
-            <CssBaseline />
-            <ReactQueryProvider>{children}</ReactQueryProvider>
-          </NextAppProvider>
+          <Suspense>
+            <NextAppProvider
+              branding={{
+                logo: <Logo />,
+                title: SITE.name
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase())
+                  .join(' '),
+              }}
+              navigation={NAVIGATION}
+              theme={theme}
+            >
+              <CssBaseline />
+              <ReactQueryProvider>{children}</ReactQueryProvider>
+            </NextAppProvider>
+          </Suspense>
         </AppRouterCacheProvider>
       </body>
     </html>
