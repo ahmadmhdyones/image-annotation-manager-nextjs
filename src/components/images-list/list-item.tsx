@@ -80,7 +80,7 @@ export default function ListItem({ image, isRefetching, onDelete }: Props) {
         }
         position='below'
         subtitle={
-          <Stack alignItems='center' direction='row' spacing={1} sx={{ marginTop: 'auto' }}>
+          <Stack alignItems='center' direction='row' flexWrap={'wrap'} spacing={1} sx={{ marginTop: 'auto' }}>
             <Typography component='span' variant='caption'>
               {[image.metadata?.resolution, image.metadata?.format, image.metadata?.size].filter(Boolean).join(' • ')}
             </Typography>
