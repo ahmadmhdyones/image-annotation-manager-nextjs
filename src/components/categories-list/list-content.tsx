@@ -67,7 +67,7 @@ export default function ListContent({ initialData = [] }: { initialData?: ICateg
     <>
       {isRefetching && <ListSkeleton count={1} />}
 
-      {categories.map(({ description, id, image, name }) => (
+      {[...categories].reverse().map(({ description, id, image, name }) => (
         <ListItem key={id}>
           <ListItemAvatar sx={{ marginBottom: 'auto' }}>
             {image ? (

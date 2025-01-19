@@ -3,7 +3,7 @@ import { z } from 'zod';
 // ----------------------------------------------------------------------
 
 export const formSchema = z.object({
-  description: z.string().min(20).max(500).optional(),
+  description: z.string().min(3).max(500).optional(),
   image: z
     .string()
     .url()
