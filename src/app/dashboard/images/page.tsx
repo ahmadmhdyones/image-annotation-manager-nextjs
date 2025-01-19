@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { PageContainer } from '@toolpad/core/PageContainer';
 
 import { Box } from '@mui/material';
 
 import ImagesList from '@/components/images-list';
-import ImageFilterForm from '@/components/image-filter-form';
+import ImageFilterForm, { ImageFilterFormSkeleton } from '@/components/image-filter-form';
 
 import { paths } from '@/helpers/map-routes';
 
@@ -19,7 +20,10 @@ export default function ImagesListPage() {
     <PageContainer id={paths.dashboard.images.root.id}>
       {/* ------------------------- <Images List Section> ------------------------ */}
       <Box component='section'>
-        <ImageFilterForm />
+        <Suspense fallback={<ImageFilterFormSkeleton />}>
+          <ImageFilterForm />
+        </Suspense>
+
         <ImagesList />
       </Box>
       {/* ------------------------- </Images List Section> ------------------------ */}

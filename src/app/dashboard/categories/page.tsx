@@ -6,7 +6,12 @@ import { PageContainer } from '@toolpad/core/PageContainer';
 import { Add } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 
-import { CategoriesList, CategoriesListCount, CategoriesListSkeleton } from '@/components/categories-list';
+import {
+  CategoriesList,
+  CategoriesListCount,
+  CategoriesListSkeleton,
+  CategoriesListCoutSkeleton,
+} from '@/components/categories-list';
 
 import { paths } from '@/helpers/map-routes';
 
@@ -32,7 +37,12 @@ export default function CategoriesListPage() {
       {/* ------------------------- <Categories List Section> ------------------------ */}
       <Box component='section'>
         <Box alignItems='center' display='flex' justifyContent='space-between' mb={2}>
-          <Typography variant='h6'>Total items: {<CategoriesListCount />}</Typography>
+          <Typography variant='h6'>
+            Total items:{' '}
+            <Suspense fallback={<CategoriesListCoutSkeleton />}>
+              <CategoriesListCount />
+            </Suspense>
+          </Typography>
 
           <Button component={Link} href={paths.dashboard.categories.new.to()} startIcon={<Add />} variant='contained'>
             Create New
