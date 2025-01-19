@@ -161,6 +161,12 @@ export const setupMocks = (instance: AxiosInstance) => {
       images = images.filter(img => img.name.toLowerCase().includes(name));
     }
 
+    // Filter by category ID
+    const categoryId = params.get(QueryParams.CATEGORY);
+    if (categoryId) {
+      images = images.filter(img => img.categoryId === parseInt(categoryId));
+    }
+
     // Filter by format
     const format = params.get(QueryParams.FORMAT)?.toLowerCase();
     if (format) {

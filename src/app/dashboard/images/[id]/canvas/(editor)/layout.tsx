@@ -1,4 +1,6 @@
-import { Box, Chip, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
+
+import CategoryTag from '@/components/common/category-tag';
 
 import { paths } from '@/helpers/map-routes';
 import { RouteParams } from '@/helpers/map-params';
@@ -81,7 +83,7 @@ export default async function CanvasLayout({
               spacing={1}
               sx={{ width: { md: 'fit-content', xs: '100%' } }}
             >
-              <Chip label={`Category ${image.categoryId}`} size='small' />
+              <CategoryTag categoryId={image.categoryId} />
               <Typography
                 sx={{ alignSelf: 'center', color: 'text.secondary', wordBreak: 'break-word' }}
                 variant='caption'

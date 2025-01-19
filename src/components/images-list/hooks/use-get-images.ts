@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
@@ -7,7 +8,8 @@ import { ImageFilters } from '@/components/image-filter-form/hooks/use-image-fil
 
 import { IImage } from '@/types/models/image.types';
 
-import { QueryParams } from '@/helpers/map-params';
+import { FilterKeys, IMAGE_FILTERS_CONFIG } from '@/configs/image-filters.config';
+
 import { imageAPI } from '@/helpers/api/resources/image';
 import { queryKeys } from '@/helpers/react-query/query-keys.enum';
 
@@ -30,17 +32,19 @@ import { queryKeys } from '@/helpers/react-query/query-keys.enum';
 export default function useGetImages(initialData?: IImage[]) {
   const searchParams = useSearchParams();
 
-  const filters: ImageFilters = {
-    format: searchParams.get(QueryParams.FORMAT) || undefined,
-    name: searchParams.get(QueryParams.NAME) || '',
-    resolution: searchParams.get(QueryParams.RESOLUTION) || undefined,
-  };
-
-  const cleanFilters = Object.fromEntries(Object.entries(filters).filter(([_, value]) => value)) as ImageFilters;
+  const filters = useMemo(() => {
+    return Object.entries(IMAGE_FILTERS_CONFIG).reduce((acc, [key, config]) => {
+      const value = searchParams.get(config.param);
+      if (value) {
+        (acc as any)[key as FilterKeys] = value;
+      }
+      return acc;
+    }, {} as Partial<ImageFilters>);
+  }, [searchParams]);
 
   return useQuery({
     initialData,
-    queryFn: () => imageAPI.getMany<any>({ params: cleanFilters }),
+    queryFn: () => imageAPI.getMany<any>({ params: filters }),
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: [queryKeys.images(), ...(searchParams.size ? [searchParams.toString()] : [])],
   });

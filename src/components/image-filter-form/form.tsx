@@ -13,7 +13,7 @@ const FORMAT_OPTIONS = _imageFormats;
 const RESOLUTION_OPTIONS = _imageResolutions;
 
 export default function Form() {
-  const { format, handleChange, name, resolution, setFormat, setName, setResolution } = useImageFilters();
+  const { filters, handleChange, handleReset } = useImageFilters();
 
   return (
     <Box sx={{ mb: 3 }}>
@@ -22,16 +22,9 @@ export default function Form() {
           <TextField
             fullWidth
             InputProps={{
-              endAdornment: name ? (
+              endAdornment: filters.name ? (
                 <InputAdornment position='end'>
-                  <IconButton
-                    edge='end'
-                    onClick={() => {
-                      setName('');
-                      handleChange('', format, resolution);
-                    }}
-                    size='small'
-                  >
+                  <IconButton edge='end' onClick={() => handleChange({ name: '' })} size='small'>
                     <Clear />
                   </IconButton>
                 </InputAdornment>
@@ -43,39 +36,36 @@ export default function Form() {
               ),
               sx: { pr: 0.5 },
             }}
-            onChange={e => {
-              setName(e.target.value);
-              handleChange(e.target.value, format, resolution);
-            }}
+            onChange={e => handleChange({ name: e.target.value })}
             onKeyUp={e => {
               if (e.key === 'Enter') {
-                handleChange(name, format, resolution);
+                handleChange(filters);
               }
             }}
             placeholder='Search images...'
             size='medium'
             sx={{ '& .MuiInputBase-root': { height: 40 } }}
-            value={name}
+            value={filters.name}
           />
           <Button
-            onClick={() => handleChange(name, format, resolution)}
-            sx={{
-              height: 40,
-              px: 3,
-              width: { sm: 'auto', xs: '100%' },
-            }}
+            onClick={() => handleChange(filters)}
+            sx={{ height: 40, px: 3, width: { sm: 'auto', xs: '100%' } }}
             variant='contained'
           >
             Search
+          </Button>
+          <Button
+            onClick={handleReset}
+            sx={{ height: 40, px: 3, width: { sm: 'auto', xs: '100%' } }}
+            variant='outlined'
+          >
+            Reset
           </Button>
         </Stack>
 
         <Stack direction={{ sm: 'row', xs: 'column' }} spacing={2}>
           <Autocomplete
-            onChange={(_, newValue) => {
-              setFormat(newValue);
-              handleChange(name, newValue, resolution);
-            }}
+            onChange={(_, newValue) => handleChange({ format: newValue })}
             options={FORMAT_OPTIONS}
             renderInput={params => <TextField {...params} label='Format' placeholder='Select formats' />}
             renderTags={(value, getTagProps) =>
@@ -85,14 +75,11 @@ export default function Form() {
             }
             slotProps={{ clearIndicator: { sx: { mr: 0.5 } } }}
             sx={{ width: { sm: 200, xs: '100%' } }}
-            value={format}
+            value={filters.format || null}
           />
 
           <Autocomplete
-            onChange={(_, newValue) => {
-              setResolution(newValue);
-              handleChange(name, format, newValue);
-            }}
+            onChange={(_, newValue) => handleChange({ resolution: newValue })}
             options={RESOLUTION_OPTIONS}
             renderInput={params => <TextField {...params} label='Resolution' placeholder='Select resolutions' />}
             renderTags={(value, getTagProps) =>
@@ -102,7 +89,7 @@ export default function Form() {
             }
             slotProps={{ clearIndicator: { sx: { mr: 0.5 } } }}
             sx={{ width: { sm: 200, xs: '100%' } }}
-            value={resolution}
+            value={filters.resolution || null}
           />
         </Stack>
       </Stack>

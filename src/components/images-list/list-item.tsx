@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { Draw, Delete } from '@mui/icons-material';
-import { Box, Chip, Stack, Typography, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
+import { Box, Stack, Typography, IconButton, ImageListItem, ImageListItemBar } from '@mui/material';
 
 import ConfirmActionButton from '@/components/ui/confirm-action-button';
 
@@ -12,6 +12,7 @@ import { DEFAULT_BLUR_DATA_URL } from '@/configs/global.config';
 
 import { paths } from '@/helpers/map-routes';
 
+import CategoryTag from '../common/category-tag';
 import AnnotationCountButton from './annotation-count-button';
 
 // ----------------------------------------------------------------------
@@ -25,7 +26,11 @@ interface Props {
 export default function ListItem({ image, isRefetching, onDelete }: Props) {
   return (
     <ImageListItem>
-      <Box sx={{ aspectRatio: '1/1', display: 'block', position: 'relative' }}>
+      <Box
+        component={Link}
+        href={paths.dashboard.images.id.canvas.to(image.id.toString())}
+        sx={{ aspectRatio: '1/1', display: 'block', position: 'relative' }}
+      >
         <Image
           alt={image.name}
           blurDataURL={DEFAULT_BLUR_DATA_URL}
@@ -84,7 +89,7 @@ export default function ListItem({ image, isRefetching, onDelete }: Props) {
             <Typography component='span' variant='caption'>
               {[image.metadata?.resolution, image.metadata?.format, image.metadata?.size].filter(Boolean).join(' • ')}
             </Typography>
-            <Chip label={`Category ${image.categoryId}`} size='small' />
+            <CategoryTag categoryId={image.categoryId} />
           </Stack>
         }
         sx={{

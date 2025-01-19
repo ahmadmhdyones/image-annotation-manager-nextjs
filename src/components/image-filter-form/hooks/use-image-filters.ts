@@ -1,53 +1,75 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import debounce from 'lodash/debounce';
+import { useMemo, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { QueryParams } from '@/helpers/map-params';
+import { FilterKeys, IMAGE_FILTERS_CONFIG } from '@/configs/image-filters.config';
 
 // ----------------------------------------------------------------------
 
 export type ImageFilters = {
-  name: string;
-  format: string | undefined;
-  resolution: string | undefined;
+  [K in FilterKeys]: (typeof IMAGE_FILTERS_CONFIG)[K]['default'];
 };
 
 export function useImageFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [name, setName] = useState(searchParams.get(QueryParams.NAME) || '');
-  const [format, setFormat] = useState<string | null>(searchParams.get(QueryParams.FORMAT));
-  const [resolution, setResolution] = useState<string | null>(searchParams.get(QueryParams.RESOLUTION));
+  // Create state dynamically based on config
+  const [filters, setFilters] = useState<ImageFilters>(() => {
+    return Object.entries(IMAGE_FILTERS_CONFIG).reduce(
+      (acc, [key, config]) => ({
+        ...acc,
+        [key]: searchParams.get(config.param) ?? config.default,
+      }),
+      {} as ImageFilters
+    );
+  });
 
-  const updateURL = useCallback(
-    (newName: string, newFormat: string | null, newResolution: string | null) => {
-      const params = new URLSearchParams();
+  const debouncedUpdateURL = useMemo(
+    () =>
+      debounce((newFilters: Partial<ImageFilters>) => {
+        const params = new URLSearchParams(searchParams);
 
-      if (newName) params.set(QueryParams.NAME, newName);
-      if (newFormat) params.set(QueryParams.FORMAT, newFormat);
-      if (newResolution) params.set(QueryParams.RESOLUTION, newResolution);
+        Object.entries(newFilters).forEach(([key, value]) => {
+          const { param } = IMAGE_FILTERS_CONFIG[key as FilterKeys];
+          if (value) {
+            params.set(param, value);
+          } else {
+            params.delete(param);
+          }
+        });
 
-      router.push(`?${params.toString()}`, { scroll: false });
-    },
-    [router]
+        router.push(`?${params.toString()}`, { scroll: false });
+      }, 500),
+    [router, searchParams]
   );
 
   const handleChange = useCallback(
-    (newName: string, newFormat: string | null, newResolution: string | null) => {
-      updateURL(newName, newFormat, newResolution);
+    (updates: Partial<ImageFilters>) => {
+      setFilters(prev => ({ ...prev, ...updates }));
+      debouncedUpdateURL(updates);
     },
-    [updateURL]
+    [debouncedUpdateURL]
   );
 
+  const handleReset = () => {
+    const defaultFilters = Object.entries(IMAGE_FILTERS_CONFIG).reduce(
+      (acc, [key, config]) => ({
+        ...acc,
+        [key]: config.default,
+      }),
+      {} as ImageFilters
+    );
+
+    setFilters(defaultFilters);
+    debouncedUpdateURL(defaultFilters);
+  };
+
   return {
-    format,
+    filters,
     handleChange,
-    name,
-    resolution,
-    setFormat,
-    setName,
-    setResolution,
+    handleReset,
   };
 }
