@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Card, Avatar, Typography, CardContent } from '@mui/material';
 
 import { cardStyle } from './styles';

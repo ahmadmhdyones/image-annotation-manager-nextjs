@@ -10,7 +10,7 @@ import {
   CategoriesList,
   CategoriesListCount,
   CategoriesListSkeleton,
-  CategoriesListCoutSkeleton,
+  CategoriesListCountSkeleton,
 } from '@/components/categories-list';
 
 import { paths } from '@/helpers/map-routes';
@@ -39,7 +39,7 @@ export default function CategoriesListPage() {
         <Box alignItems='center' display='flex' justifyContent='space-between' mb={2}>
           <Typography variant='h6'>
             Total items:{' '}
-            <Suspense fallback={<CategoriesListCoutSkeleton />}>
+            <Suspense fallback={<CategoriesListCountSkeleton />}>
               <CategoriesListCount />
             </Suspense>
           </Typography>

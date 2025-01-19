@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { List } from '@mui/material';
 
 import { categoryAPI } from '@/helpers/api/resources/category';
