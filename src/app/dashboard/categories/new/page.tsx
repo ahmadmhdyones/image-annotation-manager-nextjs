@@ -9,8 +9,6 @@ import { paths } from '@/helpers/map-routes';
 
 // ----------------------------------------------------------------------
 
-export const experimental_ppr = true;
-
 export const metadata: Metadata = {
   title: 'Create Category',
 };

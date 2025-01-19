@@ -22,8 +22,6 @@ import { paths } from '@/helpers/map-routes';
 => Get benefits of both SSR (initial load & seo) and CSR (caching and state management)
  */
 
-export const experimental_ppr = true;
-
 export const metadata: Metadata = {
   title: 'Categories',
 };
