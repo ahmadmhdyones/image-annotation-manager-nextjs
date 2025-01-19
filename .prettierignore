@@ -1,0 +1,37 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.next
+out
+dist
+build
+
+# Testing and Coverage
+**/coverage/*
+playwright-report
+test-results
+junit.xml
+.nyc_output
+
+# Debug and Logs
+*.log*
+
+# Environment and Config
+.env*
+
+# Cache
+.cache
+.turbo
+**/cache/*
+
+# Documentation
+docs
+stories
+storybook-static
+
+# Tool Config Files
+.prettierignore
+.stylelintignore
+.eslintignore
+.husky
