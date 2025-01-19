@@ -3,6 +3,15 @@ import { ICategory } from '@/types/models/category.types';
 
 // ----------------------------------------------------------------------
 
+/**
+ * React Query Keys Map
+ *
+ * Centralized key generators for React Query operations:
+ * - Ensures consistent cache keys across the application
+ * - Provides type-safe key generation with proper parameters
+ * - Groups related queries (e.g., all category-related keys)
+ */
+
 export const queryKeys = {
   // Annotations
   annotations: () => 'annotations',

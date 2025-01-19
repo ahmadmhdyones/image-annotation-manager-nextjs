@@ -10,6 +10,15 @@ import { annotationAPI } from '@/helpers/api/resources/annotation';
 
 // ----------------------------------------------------------------------
 
+/**
+ * useAnnotations Hook
+ *
+ * Manages annotation data synchronization:
+ * - Fetches existing annotations for an image
+ * - Ensures data consistency between server and client
+ *
+ */
+
 export function useAnnotations(imageId: IImage['id']) {
   const {
     data: annotations = [],

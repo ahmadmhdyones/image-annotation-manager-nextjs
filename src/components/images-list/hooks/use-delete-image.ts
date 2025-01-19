@@ -12,7 +12,13 @@ import { queryKeys } from '@/helpers/react-query/query-keys.enum';
 /**
  * useDeleteImage Hook
  *
- * Handles image deletion with optimistic updates and cache invalidation.
+ * Handles image deletion with optimistic updates:
+ * - Prevents deletion during active filters to maintain cache consistency
+ * - Without this restriction, the optimistic update would conflict with
+ *   filtered data, leading to incorrect UI state
+ * - Works in conjunction with useInvalidateImages for proper cache cleanup
+ *
+ * Note: Deletion is blocked during filtering to avoid cache/UI mismatches
  */
 
 export const useDeleteImage = () => {

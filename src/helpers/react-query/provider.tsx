@@ -19,7 +19,7 @@ export default function Provider({ children }: Readonly<{ children: React.ReactN
           queries: {
             networkMode: 'offlineFirst',
             refetchInterval: false,
-            retry: 0,
+            retry: 1,
             retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
             staleTime: 1000 * 60,
             throwOnError: false,

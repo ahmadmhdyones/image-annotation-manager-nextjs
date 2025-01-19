@@ -6,6 +6,8 @@ import { CANVAS_DEFAULT_TOOL, CANVAS_DEFAULT_COLOR } from '@/configs/canvas.conf
 
 // ----------------------------------------------------------------------
 
+// States to manage the canvas tool and color
+
 export function useCanvasTools() {
   const [tool, setTool] = useState<CanvasTools>(CANVAS_DEFAULT_TOOL);
   const [color, setColor] = useState<string>(CANVAS_DEFAULT_COLOR);

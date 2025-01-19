@@ -10,6 +10,18 @@ import { endpoints } from './endpoints';
 
 // ----------------------------------------------------------------------
 
+/**
+ * API Mocks Configuration
+ *
+ * Simulates backend API responses for development:
+ * - Mocks CRUD operations for categories, images, and annotations
+ * - Maintains data consistency across related resources
+ * - Simulates server delays and error scenarios
+ * - Enables development without backend dependency
+ *
+ * Usage: Automatically enabled when API_MOCK_ENABLED is true
+ */
+
 export const setupMocks = (instance: AxiosInstance) => {
   const mock = new AxiosMockAdapter(instance, {
     delayResponse: API_MOCK_DELAY,

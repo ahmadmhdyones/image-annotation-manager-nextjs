@@ -10,7 +10,7 @@ import { ICategory } from '@/types/models/category.types';
 
 import { RouteParams } from '@/helpers/map-params';
 
-import { CategoryFormSkeleton } from '.';
+import FormSkeleton from './form-skeleton';
 import useGetCategory from './hooks/use-get-category';
 import { DescriptionField } from './field-description';
 import useCreateCategory from './hooks/use-create-category';
@@ -72,7 +72,7 @@ export default function Form({ category }: { category?: ICategory | undefined })
   }, [fetchedCategory, isFetchedCategory, setName, setDescription, setImage]);
 
   if (isEdit && isLoadingCategory && (isStale || !category)) {
-    return <CategoryFormSkeleton />;
+    return <FormSkeleton />;
   }
 
   return (

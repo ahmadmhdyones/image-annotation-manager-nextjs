@@ -7,6 +7,21 @@ import { TLine, TRectangle, AnnotationShape } from '@/types/canvas.types';
 
 // ----------------------------------------------------------------------
 
+/**
+ * useAnnotations Hook
+ *
+ * Canvas data management:
+ * - Initializes with fetched annotations from container
+ * - Separates storage by annotation type (lines, rectangles)
+ * - Intentionally keeps simple data structure for clarity
+ *
+ * UUID Strategy:
+ * - Uses temporary UUID for new annotations on frontend
+ * - Allows tracking before backend synchronization
+ * - Will be replaced with actual backend ID after saving
+ * - Enables immediate drawing feedback with proper state management
+ */
+
 export function useAnnotations(annotations: IAnnotation[]) {
   const [lines, setLines] = useState<AnnotationShape<TLine>[]>([]);
   const [rectangles, setRectangles] = useState<AnnotationShape<TRectangle>[]>([]);

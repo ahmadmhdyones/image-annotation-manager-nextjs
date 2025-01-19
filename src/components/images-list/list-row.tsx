@@ -7,6 +7,18 @@ import ListItemSkeleton from './list-item-skeleton';
 
 // ----------------------------------------------------------------------
 
+/**
+ * VirtualizedRow Component
+ *
+ * Optimizes large image list performance:
+ * - Uses virtualization to render only visible rows
+ * - Shows skeletons during scroll to prevent layout shifts
+ * - Delays actual content rendering for smooth scrolling
+ * - Caches rendered state to avoid skeleton flicker on re-visit
+ *
+ * Note: Skeleton state is managed via hasRendered ref to prevent unnecessary re-renders
+ */
+
 interface RowProps {
   index: number;
   style: React.CSSProperties;

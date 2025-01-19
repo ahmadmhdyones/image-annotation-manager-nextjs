@@ -13,6 +13,20 @@ import { queryKeys } from '@/helpers/react-query/query-keys.enum';
 
 // ----------------------------------------------------------------------
 
+/**
+ * useGetImages Hook
+ *
+ * Handles image fetching with URL search parameters:
+ * - Integrates React Query with Next.js search params
+ * - Manages image filtering through URL parameters
+ * - Supports SSR with initialData
+ *
+ * TODO: Future improvements
+ * - Extract filters to separate components
+ * - Pass filter state via props for better component isolation
+ * - Implement proper pagination and sorting
+ */
+
 export default function useGetImages(initialData?: IImage[]) {
   const searchParams = useSearchParams();
 

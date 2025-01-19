@@ -20,6 +20,22 @@ const CanvasToolbar = dynamic(() => import('../canvas-toolbar'), { ssr: false })
 
 // ----------------------------------------------------------------------
 
+/**
+ * CanvasContainer Component
+ *
+ * Manages canvas display states and component hierarchy:
+ * - Shows loading screen during initial image fetch
+ * - Displays "Syncing" overlay during annotation updates
+ * - Renders toolbar only after data is ready
+ * - Integrates Konva canvas for drawing functionality
+ *
+ * Display Flow:
+ * 1. Loading -> while fetching image
+ * 2. Syncing -> during annotation updates
+ * 3. Toolbar -> when data is ready
+ * 4. Canvas -> Konva-based drawing surface
+ */
+
 export default function Container({ image }: { image: IImage }) {
   const containerRef = useRef<HTMLElement>(null);
   const size = useElementSize(containerRef);

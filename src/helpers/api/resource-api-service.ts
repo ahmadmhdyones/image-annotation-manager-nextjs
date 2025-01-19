@@ -3,6 +3,16 @@ import { TRequest, ResourceCreateUpdateInput } from './types';
 
 // ----------------------------------------------------------------------
 
+/**
+ * Resource API Service
+ *
+ * Generic class for CRUD operations on a resource:
+ * - getOne: Fetch a single resource by ID
+ * - getMany: Fetch multiple resources with optional filtering
+ * - create: Create a new resource
+ * - update: Update an existing resource
+ * - delete: Delete a resource
+ */
 export class ResourceApiService<Resource extends { id: number | string }> {
   constructor(protected readonly endpoint: string) {}
 

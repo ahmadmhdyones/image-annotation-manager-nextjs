@@ -5,6 +5,18 @@ import { queryKeys } from '@/helpers/react-query';
 
 // ----------------------------------------------------------------------
 
+/**
+ * useInvalidateImages Hook
+ *
+ * Manages React Query cache invalidation:
+ * - Triggers cache refresh for images and related data
+ * - Executes invalidation on component unmount
+ * - Ensures data consistency after mutations
+ * - Invalidates both images and annotations counts
+ *
+ * Usage: When deleting/updating images to refresh related lists
+ */
+
 export default function useInvalidateImages({ shouldInvalidate }: { shouldInvalidate: boolean }) {
   const queryClient = useQueryClient();
 

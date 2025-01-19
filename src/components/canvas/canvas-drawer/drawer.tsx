@@ -38,7 +38,19 @@ interface Props extends StageConfig {
   onAnnotationDelete: (id: IAnnotation['id']) => void;
 }
 
-// Constants
+/**
+ * Drawer Component
+ *
+ * Core Konva canvas manager:
+ * - Orchestrates drawing and image layers
+ * - Handles mouse interactions for all tools
+ * - Manages annotations state and rendering
+ * - Controls canvas tools (draw, erase, grab, rectangle)
+ *
+ * Structure:
+ * - Image Layer: Base canvas image
+ * - Drawing Layer: User annotations
+ */
 
 export default function Drawer({
   annotations = [],

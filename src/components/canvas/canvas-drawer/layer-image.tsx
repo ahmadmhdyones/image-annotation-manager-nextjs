@@ -8,6 +8,17 @@ import { IImage } from '@/types/models/image.types';
 
 // ----------------------------------------------------------------------
 
+/**
+ * LayerImage Component
+ *
+ * Handles image loading and positioning in Konva:
+ * - Centralizes image within canvas viewport
+ * - Calculates center position based on image dimensions
+ * - Reports loading state to parent for UI feedback
+ *
+ * Note: Image is automatically centered using (canvasWidth/2 - imageWidth/2) formula
+ */
+
 interface Props extends LayerConfig {
   imageURL: IImage['url'];
   x: Size['width'];

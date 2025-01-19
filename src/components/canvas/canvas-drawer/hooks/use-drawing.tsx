@@ -11,6 +11,26 @@ import { ResourceCreateUpdateInput } from '@/helpers/api/types';
 
 // ----------------------------------------------------------------------
 
+/**
+ * useDrawing Hook
+ *
+ * Manages real-time drawing with optimistic updates:
+ * - Provides smooth drawing experience with immediate UI feedback
+ * - Handles both continuous (lines) and bounded (rectangles) shapes
+ * - Implements optimistic updates for instant rendering
+ * - Rolls back changes on sync failure
+ *
+ * Error Handling:
+ * - Removes failed annotations from UI
+ * - Maintains UI consistency on network failures
+ *
+ * Drawing Flow:
+ * 1. Create with temp UUID
+ * 2. Show in UI immediately
+ * 3. Sync with backend (fire-and-forget)
+ * 4. Update with real ID or rollback on failure
+ */
+
 interface UseDrawingProps {
   color: string;
   onAnnotationCreate: (annotation: Omit<ResourceCreateUpdateInput<IAnnotation>, 'imageId'>) => Promise<IAnnotation>;

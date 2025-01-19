@@ -9,6 +9,20 @@ import { TRequest, TResponse } from './types';
 
 // ----------------------------------------------------------------------
 
+/**
+ * Axios Instance Configuration
+ *
+ * Centralized HTTP client setup that:
+ * - Configures base API settings and headers
+ * - Handles file uploads via FormData
+ * - Manages global error handling with Sentry
+ * - Provides type-safe request wrapper for API calls
+ * - Enables mock API integration when needed
+ *
+ * Usage: import { request } from './axios'
+ * Instead of: using axios directly
+ */
+
 const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {

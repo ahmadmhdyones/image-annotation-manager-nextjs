@@ -9,6 +9,18 @@ const ROOTS = {
 
 // ----------------------------------------------------------------------
 
+/**
+ * Application Route Mapper
+ *
+ * Single source of truth for all application routes:
+ * - Prevents hardcoded URLs across components
+ * - Provides type-safe route generation with parameters
+ * - Centralizes route management for easier maintenance
+ *
+ * Usage: paths.dashboard.categories.root.to()
+ * Instead of: '/dashboard/categories'
+ */
+
 export const paths = {
   dashboard: {
     categories: {

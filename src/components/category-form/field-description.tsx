@@ -10,7 +10,6 @@ interface DescriptionFieldProps {
   error?: string;
 }
 
-
 export function DescriptionField({ error, onChange, value }: DescriptionFieldProps) {
   return (
     <Box data-color-mode='dark' sx={{ width: '100%' }}>

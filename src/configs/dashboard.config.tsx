@@ -9,6 +9,15 @@ import { annotationAPI } from '@/helpers/api/resources/annotation';
 
 // ----------------------------------------------------------------------
 
+/**
+ * Dashboard Overview Stats Configuration
+ *
+ * Defines the stats cards and charts displayed on the dashboard homepage:
+ * - Count cards: Categories, Images, Annotations
+ * - Charts: Annotation types, Category popularity, Image upload trends
+ * Each stat has its own query function and key for independent data fetching
+ */
+
 export const overviewStats = [
   {
     icon: LocalOfferIcon,

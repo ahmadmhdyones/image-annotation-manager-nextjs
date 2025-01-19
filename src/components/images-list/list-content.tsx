@@ -21,6 +21,18 @@ import useInvalidateImages from './hooks/use-invalidate-images';
 
 // ----------------------------------------------------------------------
 
+/**
+ * ListContent Component
+ *
+ * Implements an optimized responsive image grid:
+ * - Combines react-window virtualization with infinite scroll
+ * - Maintains responsive grid layout across all devices
+ * - Dynamically calculates columns and row heights
+ * - Uses AutoSizer for container-based responsive sizing
+ *
+ * Integration: react-window + react-virtualized-auto-sizer + custom responsive hooks
+ */
+
 export default function ListContent({ initialData }: { initialData?: IImage[] }) {
   const { getColumnCount, getPadding, getRowHeight } = useResponsiveGrid();
   const { data: images = [], error, isError, isFetching, isLoading, isRefetching } = useGetImages(initialData);
