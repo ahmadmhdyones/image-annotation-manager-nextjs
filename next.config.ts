@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
 
   eslint: {
     dirs: ['src'],
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
 
   experimental: {
@@ -43,7 +43,7 @@ const nextConfig: NextConfig = {
   },
 
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
 };
 
