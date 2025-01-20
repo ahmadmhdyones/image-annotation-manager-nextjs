@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Shape } from 'konva/lib/Shape';
+import { toast } from 'react-hot-toast';
 import { Stage as StageType } from 'konva/lib/Stage';
 
 import { IAnnotation } from '@/types/models/annotation.types';
@@ -46,6 +47,11 @@ export function useErase({ lines, onAnnotationDelete, rectangles, setLines, setR
         return; // Early return if element type is not recognized
       }
 
+      if (!elementId) {
+        toast.error('Please wait for the annotation to be saved before deleting');
+        return;
+      }
+
       // Destroy the Konva shape
       target.destroy();
 
@@ -56,9 +62,7 @@ export function useErase({ lines, onAnnotationDelete, rectangles, setLines, setR
         setRectangles(prev => prev.filter(rect => rect.uuid !== elementUuid));
       }
 
-      if (elementId) {
-        onAnnotationDelete(elementId);
-      }
+      onAnnotationDelete(elementId);
     },
     [lines, rectangles, setLines, setRectangles, onAnnotationDelete]
   );
