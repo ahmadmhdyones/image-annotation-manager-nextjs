@@ -1,6 +1,7 @@
 # Image Annotation Manager with Next.js
 
 ![Canvas Editor Preview](./public/assets/images/demo.gif)
+
 _A showcase of the canvas editor for smooth and responsive image annotation._
 
 ## Live Demo
