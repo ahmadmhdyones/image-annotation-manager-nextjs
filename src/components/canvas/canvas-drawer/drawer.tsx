@@ -66,7 +66,7 @@ export default function Drawer({
 }: Props) {
   const { lines, rectangles, setLines, setRectangles } = useAnnotations(annotations);
 
-  const { handleZoom } = useZoom();
+  const { handleTouchEnd, handleTouchMove, handleWheel } = useZoom();
 
   const {
     finalizeDrawLine,
@@ -86,33 +86,47 @@ export default function Drawer({
 
   const { handleErase } = useErase({ lines, onAnnotationDelete, rectangles, setLines, setRectangles });
 
-  const handleMouseDown = useCallback(
-    (e: KonvaEventObject<MouseEvent>) => {
-      if (tool === CanvasTools.GRAB) return;
-      if (tool === CanvasTools.ERASE) {
-        handleErase(e.target);
-        return;
+  const handlePointerDown = useCallback(
+    (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
+      switch (tool) {
+        case CanvasTools.GRAB:
+          return;
+        case CanvasTools.ERASE:
+          handleErase(e.target);
+          return;
+        default:
+          break;
       }
+
       if (isDrawingTool(tool)) {
         const stage = e.target.getStage();
         if (!stage) return;
 
         isDrawing.current = true;
 
-        const stagePoint = getStagePoint(stage, stage.getPointerPosition() ?? CANVAS_DEFAULT_POINT);
+        const pos = stage.getPointerPosition() ?? CANVAS_DEFAULT_POINT;
+        const stagePoint = getStagePoint(stage, pos);
 
-        if (tool === CanvasTools.RECTANGLE) {
-          startDrawRectangle(stagePoint);
-        } else {
-          startDrawLine(stagePoint);
+        switch (tool) {
+          case CanvasTools.RECTANGLE:
+            startDrawRectangle(stagePoint);
+            break;
+          case CanvasTools.DRAW:
+            startDrawLine(stagePoint);
+            break;
+          default:
+            break;
         }
       }
     },
     [tool, handleErase, isDrawing, startDrawRectangle, startDrawLine]
   );
 
-  const handleMouseMove = useCallback(
-    (e: KonvaEventObject<MouseEvent>) => {
+  const handlePointerMove = useCallback(
+    (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
+      e.evt.preventDefault();
+      e.evt.stopPropagation();
+
       if (tool === CanvasTools.GRAB) return;
       if (!isDrawing.current) return;
 
@@ -131,12 +145,15 @@ export default function Drawer({
     [tool, isDrawing, resizeDrawRectangle, resizeDrawLine]
   );
 
-  const handleMouseUp = useCallback(() => {
-    isDrawing.current = false;
+  const handlePointerEnd = useCallback(
+    (_e: KonvaEventObject<MouseEvent | TouchEvent>) => {
+      isDrawing.current = false;
 
-    if (tool === CanvasTools.RECTANGLE) finalizeDrawRectangle();
-    if (tool === CanvasTools.DRAW) finalizeDrawLine();
-  }, [isDrawing, tool, finalizeDrawRectangle, finalizeDrawLine]);
+      if (tool === CanvasTools.RECTANGLE) finalizeDrawRectangle();
+      if (tool === CanvasTools.DRAW) finalizeDrawLine();
+    },
+    [isDrawing, tool, finalizeDrawRectangle, finalizeDrawLine]
+  );
 
   const drawingLayer = useMemo(
     () => (
@@ -170,11 +187,24 @@ export default function Drawer({
     <Stage
       draggable={tool === CanvasTools.GRAB}
       height={size.height}
-      onMouseDown={handleMouseDown}
-      onMousemove={handleMouseMove}
-      onMouseup={handleMouseUp}
-      onWheel={handleZoom}
-      style={{ pointerEvents: loading ? 'none' : 'auto' }}
+      onMouseDown={handlePointerDown}
+      onMouseLeave={handlePointerEnd}
+      onMouseMove={handlePointerMove}
+      onMouseUp={handlePointerEnd}
+      onTouchEnd={e => {
+        handleTouchEnd(e);
+        handlePointerEnd(e);
+      }}
+      onTouchMove={e => {
+        if (e.evt.touches.length === 2) {
+          handleTouchMove(e);
+        } else {
+          handlePointerMove(e);
+        }
+      }}
+      onTouchStart={handlePointerDown}
+      onWheel={handleWheel}
+      style={{ pointerEvents: loading ? 'none' : 'auto', touchAction: 'none' }}
       width={size.width}
       {...rest}
     >

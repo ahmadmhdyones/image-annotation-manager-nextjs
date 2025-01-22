@@ -21,3 +21,14 @@ export const getRectDimensions = (start: TPoint, end: TPoint) => {
   const height = Math.abs(end.y - start.y);
   return { height, width, x, y };
 };
+
+export const getDistance = (p1: Touch, p2: Touch) => {
+  return Math.sqrt(Math.pow(p2.clientX - p1.clientX, 2) + Math.pow(p2.clientY - p1.clientY, 2));
+};
+
+export const getCenter = (p1: Touch, p2: Touch) => {
+  return {
+    x: (p1.clientX + p2.clientX) / 2,
+    y: (p1.clientY + p2.clientY) / 2,
+  };
+};
