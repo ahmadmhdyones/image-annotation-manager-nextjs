@@ -49,14 +49,14 @@ For further details, refer to the files in the `docs` directory.
 
 1. **Image Listing Optimization**:
 
-- Leveraged `react-window` for a responsive and performant virtualized list.
-- Optimized image loading with placeholders and smooth transitions.
+    - Leveraged `react-window` for a responsive and performant virtualized list.
+    - Optimized image loading with placeholders and smooth transitions.
 
 2. **Canvas Annotation**:
 
-- Designed an interactive canvas editor using React Konva.
-- Implemented features for annotation creation, deletion, and syncing.
-- Provided loading indicators and user feedback for better UX.
+    - Designed an interactive canvas editor using React Konva.
+    - Implemented features for annotation creation, deletion, and syncing.
+    - Provided loading indicators and user feedback for better UX.
 
 ## Getting Started
 
