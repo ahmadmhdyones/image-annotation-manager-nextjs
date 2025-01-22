@@ -15,7 +15,7 @@
 
 **Canvas Editor:**
 
-- Designed an intuitive canvas editor using prior experience with OpenLayer concepts. Features include drawing rectangles, selecting colors, and managing canvas stats (e.g., tools, annotations).
+- Designed an intuitive canvas editor using prior experience with OpenLayer concepts. Features include drawing rectangles, selecting colors, and managing canvas states (e.g., tools, annotations).
 - Implemented syncing with the backend for drawing and erasing operations using a UUID-based approach.
 - Built loading and syncing UIs for annotations and ensured performance optimization during annotation creation and deletion.
 - Add rectangle drawing tool.
@@ -42,7 +42,7 @@
 
 **Configuration and Constants:**
 
-- - Used a `configs` directory to manage constants, configurations, and mock setups for dashboards, canvas tools, and API settings.
+- Used a `configs` directory to manage constants, configurations, and mock setups for dashboards, canvas tools, and API settings.
 - Introduced mock API adaptors to test caching and heavy loads without backend support, with utilities to generate mock data dynamically.
 
 ---
