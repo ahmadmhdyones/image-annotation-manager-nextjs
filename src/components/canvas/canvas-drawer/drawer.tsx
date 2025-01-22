@@ -124,11 +124,11 @@ export default function Drawer({
 
   const handlePointerMove = useCallback(
     (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
-      e.evt.preventDefault();
-      e.evt.stopPropagation();
-
       if (tool === CanvasTools.GRAB) return;
       if (!isDrawing.current) return;
+
+      e.evt.preventDefault();
+      e.evt.stopPropagation();
 
       const stage = e.target.getStage();
       if (!stage) return;
@@ -196,9 +196,19 @@ export default function Drawer({
         handlePointerEnd(e);
       }}
       onTouchMove={e => {
+        // Handle multi-touch zoom
         if (e.evt.touches.length === 2) {
-          handleTouchMove(e);
+          isDrawing.current = false; // Reset drawing state for zoom
+          const stage = e.target.getStage();
+          if (stage) {
+            stage.draggable(false);
+            handleTouchMove(e);
+          }
         } else {
+          const stage = e.target.getStage();
+          if (stage && tool === CanvasTools.GRAB) {
+            stage.draggable(true);
+          }
           handlePointerMove(e);
         }
       }}
