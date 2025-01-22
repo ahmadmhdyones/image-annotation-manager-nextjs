@@ -45,7 +45,13 @@ export default function AnnotationCountButton({ imageId }: Props) {
         )
       }
     >
-      <IconButton disabled={false} onMouseEnter={() => refetch()} size='small' sx={{ marginTop: 'auto' }}>
+      <IconButton
+        disabled={false}
+        onClick={() => refetch()}
+        onMouseEnter={() => refetch()}
+        size='small'
+        sx={{ marginTop: 'auto' }}
+      >
         <Category />
       </IconButton>
     </Tooltip>
