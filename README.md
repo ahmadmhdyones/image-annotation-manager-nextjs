@@ -3,8 +3,6 @@
 ![Canvas Editor Preview](./public/assets/images/demo.gif)
 _A showcase of the canvas editor for smooth and responsive image annotation._
 
----
-
 ## Table of Contents
 
 1. [Overview](#overview)
@@ -13,11 +11,8 @@ _A showcase of the canvas editor for smooth and responsive image annotation._
 4. [Getting Started](#getting-started)
 5. [Configuration](#configuration)
 6. [Mock Mode vs API Mode](#mock-mode-vs-api-mode)
-7. [Available Scripts](#available-scripts)
-8. [Technologies Used](#technologies-used)
-9. [Acknowledgments](#acknowledgments)
-
----
+7. [Technologies Used](#technologies-used)
+8. [Acknowledgments](#acknowledgments)
 
 ## Overview
 
@@ -29,8 +24,6 @@ This repository was created as technical assignment expertise in building a **hi
 The project showcases skills in React, React Query, dynamic UI optimization, and virtualized list handling.
 
 For further details, refer to the files in the `docs` directory.
-
----
 
 ## Key Features
 
@@ -47,8 +40,6 @@ For further details, refer to the files in the `docs` directory.
     - Fully mobile-friendly design.
     - Mock server support for easy testing.
 
----
-
 ## Focus Areas
 
 1. **Image Listing Optimization**:
@@ -61,8 +52,6 @@ For further details, refer to the files in the `docs` directory.
 - Designed an interactive canvas editor using React Konva.
 - Implemented features for annotation creation, deletion, and syncing.
 - Provided loading indicators and user feedback for better UX.
-
----
 
 ## Getting Started
 
@@ -91,8 +80,6 @@ For further details, refer to the files in the `docs` directory.
     ```bash
     npm run dev
     ```
-
----
 
 ## Configuration
 
@@ -128,36 +115,6 @@ This app supports running in two modes:
         export const API_MOCK_ENABLED = false; // Use live API
         ```
 
----
-
-## Available Scripts
-
-- **Start Development Server**:
-
-    ```bash
-    npm run dev
-    ```
-
-- **Build for Production**:
-
-    ```bash
-    npm run build
-    ```
-
-- **Run Linter**:
-
-    ```bash
-    npm run lint
-    ```
-
-- **Format Code**:
-
-    ```bash
-    npm run format
-    ```
-
----
-
 ## Technologies Used
 
 - **Framework**: [Next.js 15](https://nextjs.org/)
@@ -166,12 +123,8 @@ This app supports running in two modes:
 - **Canvas Library**: [React Konva](https://konvajs.org/)
 - **UI Library**: [Material UI](https://mui.com/)
 
----
-
 ## Acknowledgments
 
 This project was developed to demonstrate my ability to handle complex UI challenges and optimize performance. I appreciate the opportunity to showcase these skills as technical assignment.
 
 For further technical documentation, please see the files in the `docs` directory.
-
----
