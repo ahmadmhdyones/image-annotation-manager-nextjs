@@ -3,6 +3,10 @@
 ![Canvas Editor Preview](./public/assets/images/demo.gif)
 _A showcase of the canvas editor for smooth and responsive image annotation._
 
+## Live Demo
+
+Try the application here: [Live Demo](https://image-annotation-manager-nextjs.vercel.app/)
+
 ## Table of Contents
 
 1. [Overview](#overview)
